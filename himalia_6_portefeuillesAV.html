@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Himalia — Portefeuilles Modèles 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+:root{--gold:#BFA36A;--gold-l:#E8D9A8;--dark:#0C1117;--dark2:#141B24;--dark3:#1C2636;--dark4:#243040;--txt:#DDE2EC;--txt2:#8A96AC;--txt3:#4A5568;--green:#2AB87A;--green-l:#7AE0B2;--blue:#3A9FD4;--blue-l:#90CCF0;--orange:#E07030;--orange-l:#F0A878;--border:rgba(191,163,106,0.12);--border2:rgba(255,255,255,0.06);--border3:rgba(255,255,255,0.04);--r:10px;--rl:16px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Outfit",sans-serif;background:var(--dark);color:var(--txt);font-size:14px;line-height:1.6;min-height:100vh}
+.hdr{position:sticky;top:0;z-index:200;background:rgba(12,17,23,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px}
+.logo{font-family:"Cormorant Garamond",serif;font-size:24px;font-weight:500;color:var(--gold);letter-spacing:.03em}
+.logo em{color:var(--txt2);font-style:normal;font-size:13px;font-family:"Outfit",sans-serif;margin-left:10px;font-weight:300}
+.hdr-badge{font-size:11px;padding:5px 14px;border-radius:20px;border:1px solid var(--border);color:var(--gold-l);display:flex;align-items:center;gap:7px}
+.hdr-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero{padding:60px 40px 44px;position:relative;overflow:hidden;border-bottom:1px solid var(--border2)}
+.hero::before{content:"";position:absolute;top:-80px;right:-120px;width:600px;height:600px;background:radial-gradient(circle,rgba(191,163,106,.04) 0%,transparent 65%);pointer-events:none}
+.hero-eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:14px}
+.hero-h1{font-family:"Cormorant Garamond",serif;font-size:46px;font-weight:500;line-height:1.1;margin-bottom:12px}
+.hero-h1 em{color:var(--gold);font-style:italic}
+.hero-sub{font-size:15px;color:var(--txt2);max-width:620px;margin-bottom:26px;font-weight:300}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px}
+.htag{padding:5px 14px;border-radius:20px;font-size:12px;border:1px solid;display:flex;align-items:center;gap:5px}
+.ht-c{border-color:rgba(42,184,122,.3);color:#7AE0B2;background:rgba(42,184,122,.06)}
+.ht-g{border-color:rgba(191,163,106,.3);color:var(--gold-l);background:rgba(191,163,106,.06)}
+.ht-r{border-color:rgba(224,112,48,.3);color:#F0A878;background:rgba(224,112,48,.06)}
+.universe-bar{background:var(--dark2);border-bottom:1px solid var(--border2);padding:0 40px;display:flex;position:sticky;top:64px;z-index:190}
+.univ-btn{padding:16px 28px;background:none;border:none;cursor:pointer;font-family:"Outfit",sans-serif;font-size:14px;font-weight:400;color:var(--txt3);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:10px}
+.univ-btn:hover{color:var(--txt2)}
+.univ-btn.on.classic{color:var(--gold);border-bottom-color:var(--gold);font-weight:500}
+.univ-btn.on.ethic{color:var(--green);border-bottom-color:var(--green);font-weight:500}
+.univ-tag{font-size:10px;padding:2px 7px;border-radius:3px;font-weight:500}
+.ut-c{background:rgba(191,163,106,.12);color:var(--gold)}
+.ut-e{background:rgba(42,184,122,.12);color:var(--green)}
+.profile-bar{background:var(--dark3);border-bottom:1px solid var(--border3);padding:0 40px;display:flex;position:sticky;top:113px;z-index:180}
+.profile-btn{padding:14px 24px;background:none;border:none;cursor:pointer;font-family:"Outfit",sans-serif;font-size:13px;color:var(--txt3);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap}
+.profile-btn:hover{color:var(--txt2)}
+.profile-btn.on.pru{color:var(--green-l);border-bottom-color:var(--green);font-weight:500}
+.profile-btn.on.equ{color:var(--blue-l);border-bottom-color:var(--blue);font-weight:500}
+.profile-btn.on.dyn{color:var(--orange-l);border-bottom-color:var(--orange);font-weight:500}
+.universe-panel{display:none}.universe-panel.on{display:block}
+.profile-panel{display:none;animation:fadeIn .2s ease}.profile-panel.on{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.panel-body{padding:36px 40px}
+.phdr{border-radius:var(--rl);padding:22px 26px;margin-bottom:22px;border:1px solid;position:relative;overflow:hidden}
+.phdr.pru{background:linear-gradient(135deg,#0A1F16,#0F2A1E);border-color:rgba(42,184,122,.2)}
+.phdr.equ{background:linear-gradient(135deg,#0A1525,#0F1E38);border-color:rgba(58,159,212,.2)}
+.phdr.dyn{background:linear-gradient(135deg,#200D06,#301510);border-color:rgba(224,112,48,.2)}
+.phdr-lbl{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;margin-bottom:5px}
+.phdr-title{font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:500;margin-bottom:3px;color:var(--txt)}
+.phdr-sub{font-size:13px;color:var(--txt2);font-weight:300;margin-bottom:16px}
+.phdr-badge{position:absolute;top:22px;right:26px;font-size:11px;padding:5px 14px;border-radius:20px;border:1px solid}
+.phdr.pru .phdr-badge{border-color:rgba(42,184,122,.3);color:var(--green-l);background:rgba(42,184,122,.08)}
+.phdr.equ .phdr-badge{border-color:rgba(58,159,212,.3);color:var(--blue-l);background:rgba(58,159,212,.08)}
+.phdr.dyn .phdr-badge{border-color:rgba(224,112,48,.3);color:var(--orange-l);background:rgba(224,112,48,.08)}
+.kpis{display:flex;flex-wrap:wrap;gap:22px}
+.kpi-v{font-size:19px;font-weight:500;font-family:"Cormorant Garamond",serif}
+.kpi-l{font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:.06em;margin-top:1px}
+.stabs{display:flex;gap:2px;margin-bottom:18px;background:rgba(255,255,255,.03);border-radius:var(--r);padding:3px;border:1px solid var(--border3)}
+.stab{flex:1;padding:8px 6px;text-align:center;background:none;border:none;cursor:pointer;border-radius:7px;font-size:12px;color:var(--txt3);transition:all .15s;font-family:"Outfit",sans-serif}
+.stab:hover{color:var(--txt2);background:rgba(255,255,255,.04)}
+.stab.on{font-weight:500;color:var(--txt);background:var(--dark4);border:1px solid var(--border2)}
+.tc{display:none}.tc.on{display:block}
+.twrap{overflow-x:auto;border-radius:var(--rl);border:1px solid var(--border3);margin-bottom:18px}
+table.at{width:100%;border-collapse:collapse;font-size:12px;min-width:800px}
+table.at th{background:rgba(255,255,255,.03);padding:9px 12px;text-align:left;font-size:10px;font-weight:500;color:var(--txt3);border-bottom:1px solid var(--border3);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+table.at td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.03);vertical-align:middle}
+table.at tr:last-child td{border-bottom:none}
+table.at tr:hover td{background:rgba(255,255,255,.02)}
+table.at tr.tot td{background:rgba(255,255,255,.04);font-weight:500}
+table.at tr.star td{background:rgba(191,163,106,.03)}
+.fn{font-weight:500;font-size:12px;color:var(--txt);line-height:1.3}
+.fi{font-size:10px;color:var(--txt3);font-family:monospace;margin-top:1px}
+.am-b{font-size:10px;color:var(--txt3);background:rgba(255,255,255,.05);border-radius:3px;padding:1px 5px;margin-top:2px;display:inline-block}
+.wb{display:flex;align-items:center;gap:7px}
+.wn{font-weight:500;min-width:32px;text-align:right;font-size:13px}
+.bg{flex:1;height:3px;background:rgba(255,255,255,.07);border-radius:2px;min-width:36px}
+.bf{height:3px;border-radius:2px}
+.badge{display:inline-block;padding:2px 6px;border-radius:3px;font-size:10px;font-weight:500;white-space:nowrap}
+.b-eur{background:rgba(42,184,122,.12);color:var(--green-l);border:1px solid rgba(42,184,122,.2)}
+.b-obl{background:rgba(58,159,212,.12);color:var(--blue-l);border:1px solid rgba(58,159,212,.2)}
+.b-flex{background:rgba(191,163,106,.12);color:var(--gold-l);border:1px solid rgba(191,163,106,.2)}
+.b-act{background:rgba(224,112,48,.12);color:var(--orange-l);border:1px solid rgba(224,112,48,.2)}
+.b-alt{background:rgba(255,255,255,.06);color:var(--txt2);border:1px solid var(--border2)}
+.b-isr{background:rgba(42,184,122,.1);color:#7AE0B2;border:1px solid rgba(42,184,122,.25)}
+.b-ts{background:rgba(58,159,212,.1);color:#90CCF0;border:1px solid rgba(58,159,212,.25)}
+.b-gf{background:rgba(86,170,60,.1);color:#A0E080;border:1px solid rgba(86,170,60,.25)}
+.rtag{font-size:10px;color:var(--txt3);background:rgba(255,255,255,.05);border-radius:3px;padding:1px 6px;white-space:nowrap}
+.sdots{display:flex;gap:2px}.sd{width:6px;height:6px;border-radius:50%}
+.kgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:18px}
+.kc{background:rgba(255,255,255,.03);border:1px solid var(--border3);border-radius:var(--r);padding:11px 13px}
+.kl{font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.kv{font-size:17px;font-weight:500;font-family:"Cormorant Garamond",serif}
+.jlist{display:flex;flex-direction:column;gap:9px}
+.ji{padding:13px 15px;border-radius:var(--r);border:1px solid var(--border3);border-left-width:3px}
+.jn{font-weight:500;font-size:13px;margin-bottom:3px;color:var(--txt)}
+.jpct{font-size:10px;font-family:monospace;background:rgba(255,255,255,.07);padding:1px 6px;border-radius:3px;margin-left:6px}
+.jt{font-size:12px;color:var(--txt2);line-height:1.6;font-weight:300}
+.rnote{background:rgba(191,163,106,.06);border:1px solid rgba(191,163,106,.15);border-radius:var(--r);padding:12px 15px;font-size:12px;color:var(--gold-l);margin-top:11px}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.sc{background:rgba(255,255,255,.03);border:1px solid var(--border3);border-radius:var(--r);padding:13px 15px}
+.sl{font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.sv{font-size:13px;color:var(--txt)}
+.quote-box{border:1px solid var(--border);border-radius:var(--rl);padding:20px 24px;margin-top:10px;background:rgba(191,163,106,.03)}
+.qt{font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.qb{font-family:"Cormorant Garamond",serif;font-size:15px;color:var(--txt);line-height:1.65;font-style:italic}
+.qalist{list-style:none;display:flex;flex-direction:column;gap:6px}
+.qai{display:flex;gap:9px;align-items:flex-start;padding:8px 11px;border-radius:var(--r);font-size:12px;color:var(--txt2)}
+.qai.ok{background:rgba(42,184,122,.06)}.qai.wa{background:rgba(191,163,106,.06)}
+.qi{font-size:14px;line-height:1.2;flex-shrink:0;margin-top:1px}
+.oki{color:var(--green)}.wai{color:var(--gold)}
+.map-wrap{background:rgba(255,255,255,.02);border:1px solid var(--border3);border-radius:var(--rl);padding:18px;margin-bottom:18px}
+.map-container{border-radius:var(--r);overflow:hidden}
+.map-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:13px}
+.mli{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--txt2)}
+.mld{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.country-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:9px;margin-top:14px}
+.cc{background:rgba(255,255,255,.03);border:1px solid var(--border3);border-radius:var(--r);padding:10px 12px;display:flex;align-items:center;gap:10px}
+.ccd{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.cci{flex:1}.cn{font-size:12px;font-weight:500;color:var(--txt)}.cp{font-size:11px;color:var(--txt3);margin-top:1px}
+.ccb{height:2px;background:rgba(255,255,255,.06);border-radius:1px;margin-top:5px}
+.ccbf{height:2px;border-radius:1px}
+footer{background:var(--dark2);border-top:1px solid var(--border2);padding:26px 40px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-top:60px}
+.fl{font-family:"Cormorant Garamond",serif;font-size:18px;color:var(--gold);margin-bottom:4px}
+.fd{font-size:11px;color:var(--txt3);max-width:500px;line-height:1.6}
+.fm{font-size:11px;color:var(--txt3);text-align:right}
+.leaflet-container{background:#0A1218!important}
+.leaflet-tooltip{background:#0C1117!important;border:1px solid rgba(255,255,255,.1)!important;color:var(--txt)!important;border-radius:8px!important;font-family:"Outfit",sans-serif!important;font-size:12px!important}
+.leaflet-tooltip-top::before{border-top-color:rgba(255,255,255,.1)!important}
+.leaflet-control-zoom a{background:var(--dark3)!important;color:var(--txt2)!important;border-color:var(--border3)!important}
+.leaflet-control-zoom a:hover{background:var(--dark4)!important;color:var(--txt)!important}
+.leaflet-control-attribution{display:none!important}
+@media(max-width:768px){.hdr,.hero,.universe-bar,.profile-bar,.panel-body{padding-left:16px;padding-right:16px}.hero-h1{font-size:30px}.sgrid{grid-template-columns:1fr}.phdr-badge{display:none}.profile-bar{top:108px}}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="logo">Himalia<em>Gestion de Patrimoine</em></div>
+  <div class="hdr-badge"><div class="hdr-dot"></div>Portefeuilles Modèles · 2026</div>
+</header>
+
+<section class="hero">
+  <div class="hero-eyebrow">Allocation d'actifs · Contrat Himalia</div>
+  <h1 class="hero-h1">6 Portefeuilles <em>Modèles</em><br>Prudent · Équilibré · Dynamique</h1>
+  <p class="hero-sub">Deux univers d'investissement complets — classique et éthique — construits à partir des meilleures unités de compte disponibles dans votre contrat, sélectionnées ★4 et ★5 Quantalys.</p>
+  <div class="hero-tags">
+    <div class="htag ht-g">★4 et ★5 Quantalys uniquement</div>
+    <div class="htag ht-c">Univers Classique · Fonds euros inclus</div>
+    <div class="htag ht-c">Univers Éthique · Labels ISR certifiés</div>
+    <div class="htag ht-r">Données Quantalys · Février 2026</div>
+  </div>
+</section>
+
+<nav class="universe-bar">
+  <button class="univ-btn on classic" id="unav-classic" onclick="showUniverse('classic')">
+    <span>Portefeuilles Classiques</span>
+    <span class="univ-tag ut-c">Fonds euros · Obligations · Actions</span>
+  </button>
+  <button class="univ-btn ethic" id="unav-ethic" onclick="showUniverse('ethic')">
+    <span>Portefeuilles Éthiques</span>
+    <span class="univ-tag ut-e">ISR · Towards Sustainability · ESG</span>
+  </button>
+</nav>
+<div id="pbar-classic" class="profile-bar" style="display:block">
+  <button class="profile-btn on pru" id="pbtn-classic-pru" onclick="showProfile('classic','pru')">⚓ Profil prudent</button>
+  <button class="profile-btn equ" id="pbtn-classic-equ" onclick="showProfile('classic','equ')">⚖ Profil équilibré</button>
+  <button class="profile-btn dyn" id="pbtn-classic-dyn" onclick="showProfile('classic','dyn')">🚀 Profil dynamique</button>
+</div>
+<div id="pbar-ethic" class="profile-bar" style="display:none">
+  <button class="profile-btn on pru" id="pbtn-ethic-pru" onclick="showProfile('ethic','pru')">⚓ Profil prudent</button>
+  <button class="profile-btn equ" id="pbtn-ethic-equ" onclick="showProfile('ethic','equ')">⚖ Profil équilibré</button>
+  <button class="profile-btn dyn" id="pbtn-ethic-dyn" onclick="showProfile('ethic','dyn')">🚀 Profil dynamique</button>
+</div>
+<div id="upanel-classic" class="universe-panel  on">
+  <div id="ppanel-classic-prudent" class="profile-panel on">
+    <div class="panel-body">
+<div class="phdr pru">
+  <div class="phdr-lbl" style="color:#2AB87A">Profil prudent — Classique</div>
+  <div class="phdr-title">Profil prudent</div>
+  <div class="phdr-sub">Fonds euros + obligations qualité + flexible prudent + actions minoritaires</div>
+  <div class="phdr-badge">SRI ≈ 2,0 · 7 lignes</div>
+  <div class="kpis"><div><div class="kpi-v" style="color:#2AB87A">30%</div><div class="kpi-l">Fonds euros</div></div><div><div class="kpi-v" style="color:#2AB87A">40%</div><div class="kpi-l">Obligations</div></div><div><div class="kpi-v" style="color:#2AB87A">15%</div><div class="kpi-l">Flexible</div></div><div><div class="kpi-v" style="color:#2AB87A">15%</div><div class="kpi-l">Actions + alt.</div></div><div><div class="kpi-v" style="color:#2AB87A">≈ 2,0</div><div class="kpi-l">SRI moyen</div></div><div><div class="kpi-v" style="color:#2AB87A">3–5 ans</div><div class="kpi-l">Horizon</div></div></div>
+</div>
+<div class="stabs"><button class="stab  on" onclick="showT('classic-prudent','al')">Allocation</button><button class="stab" onclick="showT('classic-prudent','ju')">Justification</button><button class="stab" onclick="showT('classic-prudent','sy')">Synthèse client</button><button class="stab" onclick="showT('classic-prudent','qa')">Contrôle qualité</button><button class="stab" onclick="showT('classic-prudent','map')">Carte mondiale</button></div>
+<div id="classic-prudent-al" class="tc on">
+  <div class="twrap"><table class="at">
+<thead><tr><th>Support</th><th>Type</th><th>Classe d'actifs</th><th>Poids</th><th>SRI</th><th>Perf 3a ann.</th><th>Sharpe 3a</th><th>Rôle</th></tr></thead>
+<tbody><tr class="star">
+          <td><div class="fn">G Croissance 2020</div><div class="fi">QUA020516176</div><div class="am-b">Generali Vie</div></td>
+          <td><span class="badge b-eur">Fonds euros</span></td>
+          <td style="color:var(--txt2);font-size:12px">Eurocroissance</td>
+          <td><div class="wb"><span class="wn" style="color:#2AB87A">30%</span><div class="bg"><div class="bf" style="width:60%;background:#2AB87A"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+3.29%</td>
+          <td style="color:var(--txt2)">0.18</td>
+          
+          <td><span class="rtag">Ancre défensive</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Hugau Obli 1-3 R</div><div class="fi">FR0010827139</div><div class="am-b">Richelieu Invest</div></td>
+          <td><span class="badge b-obl">Oblig.</span></td>
+          <td style="color:var(--txt2);font-size:12px">Oblig. euro CT</td>
+          <td><div class="wb"><span class="wn" style="color:#2AB87A">15%</span><div class="bg"><div class="bf" style="width:30%;background:#2AB87A"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+4.72%</td>
+          <td style="color:var(--txt2)">1.68</td>
+          
+          <td><span class="rtag">Oblig. CT Sharpe 1,68</span></td>
+        </tr><tr class="star">
+          <td><div class="fn">Carmignac Portfolio Credit A</div><div class="fi">LU1623762843</div><div class="am-b">Carmignac</div></td>
+          <td><span class="badge b-obl">Oblig.</span></td>
+          <td style="color:var(--txt2);font-size:12px">Oblig. crédit privé euro</td>
+          <td><div class="wb"><span class="wn" style="color:#2AB87A">15%</span><div class="bg"><div class="bf" style="width:30%;background:#2AB87A"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+7.77%</td>
+          <td style="color:var(--txt2)">1.68</td>
+          
+          <td><span class="rtag">Rendement crédit ★5</span></td>
+        </tr><tr class="star">
+          <td><div class="fn">IVO EM Corp Debt Short Dur R</div><div class="fi">LU2061939729</div><div class="am-b">IVO Capital Partners</div></td>
+          <td><span class="badge b-obl">Oblig.</span></td>
+          <td style="color:var(--txt2);font-size:12px">Oblig. émergents CT</td>
+          <td><div class="wb"><span class="wn" style="color:#2AB87A">10%</span><div class="bg"><div class="bf" style="width:20%;background:#2AB87A"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+7.47%</td>
+          <td style="color:var(--txt2)">2.02</td>
+          
+          <td><span class="rtag">Meilleur Sharpe oblig.</span></td>
+        </tr><tr class="">
+          <td><div class="fn">R-co Valor Balanced C</div><div class="fi">FR0013367265</div><div class="am-b">Rothschild & Co AM</div></td>
+          <td><span class="badge b-flex">Flexible</span></td>
+          <td style="color:var(--txt2);font-size:12px">Flexible prudent monde</td>
+          <td><div class="wb"><span class="wn" style="color:#2AB87A">15%</span><div class="bg"><div class="bf" style="width:30%;background:#2AB87A"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+9.14%</td>
+          <td style="color:var(--txt2)">0.92</td>
+          
+          <td><span class="rtag">Flexible patrimonial ★5</span></td>
+        </tr><tr class="">
+          <td><div class="fn">HMG Globetrotter D</div><div class="fi">FR0010241265</div><div class="am-b">HMG Finance</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions monde</td>
+          <td><div class="wb"><span class="wn" style="color:#2AB87A">10%</span><div class="bg"><div class="bf" style="width:20%;background:#2AB87A"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+16.09%</td>
+          <td style="color:var(--txt2)">1.54</td>
+          
+          <td><span class="rtag">Meilleur Sharpe monde</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Pictet TR-Atlas P EUR</div><div class="fi">LU0474967485</div><div class="am-b">Pictet AM</div></td>
+          <td><span class="badge b-alt">Perf. abs.</span></td>
+          <td style="color:var(--txt2);font-size:12px">Long/Short Europe</td>
+          <td><div class="wb"><span class="wn" style="color:#2AB87A">5%</span><div class="bg"><div class="bf" style="width:10%;background:#2AB87A"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+6.63%</td>
+          <td style="color:var(--txt2)">1.25</td>
+          
+          <td><span class="rtag">Décorrélant ★5</span></td>
+        </tr><tr class="tot"><td colspan="3"><strong>Total</strong></td><td><strong style="color:#2AB87A;font-size:14px">100%</strong></td><td colspan="4"></td></tr></tbody></table></div>
+  <div class="kgrid"><div class="kc"><div class="kl">Fonds euros</div><div class="kv" style="color:#2AB87A">30%</div></div><div class="kc"><div class="kl">Obligations</div><div class="kv" style="color:#2AB87A">40%</div></div><div class="kc"><div class="kl">Flexibles</div><div class="kv" style="color:#2AB87A">15%</div></div><div class="kc"><div class="kl">Actions + alt.</div><div class="kv" style="color:#2AB87A">15%</div></div><div class="kc"><div class="kl">SRI moy.</div><div class="kv" style="color:var(--gold)">≈ 2,0</div></div><div class="kc"><div class="kl">Notation moy.</div><div class="kv" style="color:var(--gold)">★5</div></div></div>
+</div>
+<div id="classic-prudent-ju" class="tc"><div class="jlist"><div class="ji" style="border-left-color:#2AB87A"><div class="jn">G Croissance 2020 — Generali Vie<span class="jpct">30%</span></div><div class="jt">Support eurocroissance Generali : garantie du capital à terme, rendement 3,29% ann. sur 3 ans avec une volatilité de seulement 1,34%. Constitue l'ancre défensive du portefeuille. À 30%, il assure la préservation du capital dans tous les scénarios de marché.</div></div><div class="ji" style="border-left-color:#2AB87A"><div class="jn">Hugau Obli 1-3 R — Richelieu Invest<span class="jpct">15%</span></div><div class="jt">★5 / SRI 2. Meilleur Sharpe de sa catégorie (1,68) sur les obligations court terme 1-3 ans. Volatilité de seulement 0,99%, perf 3a +4,72%. Complémentaire du fonds euros sur la duration courte avec un rendement ajusté au risque excellent.</div></div><div class="ji" style="border-left-color:#2AB87A"><div class="jn">Carmignac Portfolio Credit A — Carmignac<span class="jpct">15%</span></div><div class="jt">★5 / SRI 2. Fonds obligataire crédit privé euro de référence, Sharpe 1,68 et perf 3a +7,77% avec volatilité 2,81%. Gestion active Carmignac sur les obligations d'entreprise investment grade et crossover. Apporte le meilleur rendement du pôle obligataire.</div></div><div class="ji" style="border-left-color:#2AB87A"><div class="jn">IVO EM Corp Debt Short Duration R<span class="jpct">10%</span></div><div class="jt">★5 / SRI 2. Meilleur Sharpe de la sélection (2,02) avec une volatilité de seulement 2,18%. IVO Capital Partners est le spécialiste reconnu sur les obligations d'entreprises émergentes courte durée. Rendement 3a +7,47% pour un risque très contenu.</div></div><div class="ji" style="border-left-color:#2AB87A"><div class="jn">R-co Valor Balanced C — Rothschild<span class="jpct">15%</span></div><div class="jt">★5 / SRI 3. Flexible prudent monde de référence, Sharpe 0,92, perf 3a +9,14%. Sert de transition entre le pôle défensif et le pôle actions avec une exposition actions plafonnée et une gestion patrimoniale de conviction.</div></div><div class="ji" style="border-left-color:#2AB87A"><div class="jn">HMG Globetrotter D — HMG Finance<span class="jpct">10%</span></div><div class="jt">★5 / SRI 3. Meilleur Sharpe de la catégorie actions monde (1,54) et perf 3a +16,09%. Spécialiste petites et moyennes valeurs mondiales de qualité. À 10%, apporte de la croissance avec le meilleur ratio rendement/risque de la sélection actions.</div></div><div class="ji" style="border-left-color:#2AB87A"><div class="jn">Pictet TR-Atlas P EUR — Pictet AM<span class="jpct">5%</span></div><div class="jt">★5 / SRI 2. Fonds de performance absolue Long/Short Europe, Sharpe 1,25, volatilité 3,89%. Quasi non corrélé aux marchés directionnels. À 5%, améliore le ratio rendement/risque global du portefeuille sans risque directionnel supplémentaire.</div></div></div><div class="rnote">⚠ Risques principaux : risque de taux (Carmignac Credit), risque de crédit émergent (IVO — limité à 10%), risque actions limité à 10%. Le fonds euros (30%) et les obligations CT (25%) couvrent 55% du portefeuille avec une volatilité très faible.</div></div>
+<div id="classic-prudent-sy" class="tc"><div class="sgrid"><div class="sc"><div class="sl">Objectif</div><div class="sv">Préservation du capital + rendement régulier supérieur au fonds euros seul</div></div><div class="sc"><div class="sl">Horizon recommandé</div><div class="sv">3 à 5 ans minimum</div></div><div class="sc"><div class="sl">Niveau de risque</div><div class="sv">Faible à modéré — SRI moyen pondéré ≈ 2,0</div></div><div class="sc"><div class="sl">Profil client adapté</div><div class="sv">Retraité, épargnant prudent, capital à protéger, horizon court à moyen terme</div></div><div class="sc"><div class="sl">Volatilité estimée</div><div class="sv">2% à 4% — très faible</div></div><div class="sc"><div class="sl">Rendement cible</div><div class="sv">4% à 6% / an brut de frais de gestion</div></div></div><div class="quote-box"><div class="qt">Phrase de présentation client</div><div class="qb">"Un portefeuille conçu pour sécuriser votre capital avec le fonds euros Generali comme socle, tout en cherchant un complément de rendement via une sélection d'obligations et de fonds flexibles parmi les plus réguliers du marché."</div></div></div>
+<div id="classic-prudent-qa" class="tc"><ul class="qalist"><li class="qai ok"><span class="qi oki">✓</span>Total = 100% — 30+15+15+10+15+10+5</li><li class="qai ok"><span class="qi oki">✓</span>7 lignes — cible 5–7 atteinte</li><li class="qai ok"><span class="qi oki">✓</span>Toutes les lignes ★5 Quantalys</li><li class="qai ok"><span class="qi oki">✓</span>Fonds euros en ancre défensive à 30% — conforme à la demande</li><li class="qai ok"><span class="qi oki">✓</span>Pôle défensif (fonds euros + oblig.) = 70% — cohérent avec profil prudent</li><li class="qai ok"><span class="qi oki">✓</span>Hugau CT ≠ Carmignac Credit ≠ IVO EM — 3 segments obligataires distincts</li><li class="qai ok"><span class="qi oki">✓</span>Pictet TR-Atlas : décorrélant, améliore le Sharpe global sans risque directionnel</li><li class="qai wa"><span class="qi wai">△</span>IVO émergents (10%) : risque de crédit émergent à mentionner au client</li></ul></div>
+<div id="classic-prudent-map" class="tc"><div class="map-wrap">
+  <div id="map-classic-prudent" class="map-container" style="height:400px"></div>
+  <div class="map-legend" id="legend-classic-prudent"></div>
+</div>
+<div class="country-grid" id="countries-classic-prudent"></div></div>    </div>
+  </div>
+  <div id="ppanel-classic-equilibre" class="profile-panel">
+    <div class="panel-body">
+<div class="phdr equ">
+  <div class="phdr-lbl" style="color:#3A9FD4">Profil équilibré — Classique</div>
+  <div class="phdr-title">Profil équilibré</div>
+  <div class="phdr-sub">Obligations de rendement + flexibles conviction + actions monde et Europe diversifiées</div>
+  <div class="phdr-badge">SRI ≈ 3,1 · 9 lignes</div>
+  <div class="kpis"><div><div class="kpi-v" style="color:#3A9FD4">10%</div><div class="kpi-l">Fonds euros</div></div><div><div class="kpi-v" style="color:#3A9FD4">30%</div><div class="kpi-l">Obligations</div></div><div><div class="kpi-v" style="color:#3A9FD4">20%</div><div class="kpi-l">Flexibles</div></div><div><div class="kpi-v" style="color:#3A9FD4">35%</div><div class="kpi-l">Actions</div></div><div><div class="kpi-v" style="color:#3A9FD4">5%</div><div class="kpi-l">Perf. abs.</div></div><div><div class="kpi-v" style="color:#3A9FD4">≈ 3,1</div><div class="kpi-l">SRI moyen</div></div><div><div class="kpi-v" style="color:#3A9FD4">5–8 ans</div><div class="kpi-l">Horizon</div></div></div>
+</div>
+<div class="stabs"><button class="stab  on" onclick="showT('classic-equilibre','al')">Allocation</button><button class="stab" onclick="showT('classic-equilibre','ju')">Justification</button><button class="stab" onclick="showT('classic-equilibre','sy')">Synthèse client</button><button class="stab" onclick="showT('classic-equilibre','qa')">Contrôle qualité</button><button class="stab" onclick="showT('classic-equilibre','map')">Carte mondiale</button></div>
+<div id="classic-equilibre-al" class="tc on">
+  <div class="twrap"><table class="at">
+<thead><tr><th>Support</th><th>Type</th><th>Classe d'actifs</th><th>Poids</th><th>SRI</th><th>Perf 3a ann.</th><th>Sharpe 3a</th><th>Rôle</th></tr></thead>
+<tbody><tr class="">
+          <td><div class="fn">G Croissance 2020</div><div class="fi">QUA020516176</div><div class="am-b">Generali Vie</div></td>
+          <td><span class="badge b-eur">Fonds euros</span></td>
+          <td style="color:var(--txt2);font-size:12px">Eurocroissance</td>
+          <td><div class="wb"><span class="wn" style="color:#3A9FD4">10%</span><div class="bg"><div class="bf" style="width:20%;background:#3A9FD4"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+3.29%</td>
+          <td style="color:var(--txt2)">0.18</td>
+          
+          <td><span class="rtag">Ancre sécurité</span></td>
+        </tr><tr class="star">
+          <td><div class="fn">Axiom Obligataire RC</div><div class="fi">LU1876460905</div><div class="am-b">Axiom Alternative Inv.</div></td>
+          <td><span class="badge b-obl">Oblig.</span></td>
+          <td style="color:var(--txt2);font-size:12px">Oblig. monde diversif.</td>
+          <td><div class="wb"><span class="wn" style="color:#3A9FD4">15%</span><div class="bg"><div class="bf" style="width:30%;background:#3A9FD4"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+7.82%</td>
+          <td style="color:var(--txt2)">1.40</td>
+          
+          <td><span class="rtag">Pilier oblig. rendement</span></td>
+        </tr><tr class="star">
+          <td><div class="fn">Schelcher Euro High Yield P</div><div class="fi">FR0010560037</div><div class="am-b">Arkea Asset Management</div></td>
+          <td><span class="badge b-obl">Oblig.</span></td>
+          <td style="color:var(--txt2);font-size:12px">Oblig. HY euro</td>
+          <td><div class="wb"><span class="wn" style="color:#3A9FD4">15%</span><div class="bg"><div class="bf" style="width:30%;background:#3A9FD4"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+7.20%</td>
+          <td style="color:var(--txt2)">1.53</td>
+          
+          <td><span class="rtag">HY euro Sharpe 1,53</span></td>
+        </tr><tr class="star">
+          <td><div class="fn">Carmignac Invest Latitude A</div><div class="fi">FR0010147603</div><div class="am-b">Carmignac Gestion</div></td>
+          <td><span class="badge b-flex">Flexible</span></td>
+          <td style="color:var(--txt2);font-size:12px">Flexible monde</td>
+          <td><div class="wb"><span class="wn" style="color:#3A9FD4">15%</span><div class="bg"><div class="bf" style="width:30%;background:#3A9FD4"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+13.78%</td>
+          <td style="color:var(--txt2)">1.26</td>
+          
+          <td><span class="rtag">Flexible conviction ★5</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Omega Allocation Flexible</div><div class="fi">FR0013357704</div><div class="am-b">Lazard Frères Gestion</div></td>
+          <td><span class="badge b-flex">Flexible</span></td>
+          <td style="color:var(--txt2);font-size:12px">Flexible prudent monde</td>
+          <td><div class="wb"><span class="wn" style="color:#3A9FD4">5%</span><div class="bg"><div class="bf" style="width:10%;background:#3A9FD4"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+8.83%</td>
+          <td style="color:var(--txt2)">1.08</td>
+          
+          <td><span class="rtag">Flexible prudent Lazard</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Amundi MSCI World II ETF</div><div class="fi">FR0010315770</div><div class="am-b">Amundi AM</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions monde</td>
+          <td><div class="wb"><span class="wn" style="color:#3A9FD4">15%</span><div class="bg"><div class="bf" style="width:30%;background:#3A9FD4"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+15.81%</td>
+          <td style="color:var(--txt2)">0.97</td>
+          
+          <td><span class="rtag">Socle actions monde ETF</span></td>
+        </tr><tr class="">
+          <td><div class="fn">JPMF Euroland Dynamic A</div><div class="fi">LU0661985969</div><div class="am-b">JPMorgan AM</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions zone euro</td>
+          <td><div class="wb"><span class="wn" style="color:#3A9FD4">10%</span><div class="bg"><div class="bf" style="width:20%;background:#3A9FD4"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+17.14%</td>
+          <td style="color:var(--txt2)">1.05</td>
+          
+          <td><span class="rtag">Eurozone JPM ★5</span></td>
+        </tr><tr class="">
+          <td><div class="fn">iShares MSCI EM ex-China ETF</div><div class="fi">IE00BMG6Z448</div><div class="am-b">BlackRock AM Ireland</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions émergents hors Chine</td>
+          <td><div class="wb"><span class="wn" style="color:#3A9FD4">10%</span><div class="bg"><div class="bf" style="width:20%;background:#3A9FD4"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+16.56%</td>
+          <td style="color:var(--txt2)">1.09</td>
+          
+          <td><span class="rtag">Émergents hors Chine ★5</span></td>
+        </tr><tr class="star">
+          <td><div class="fn">Pictet TR Atlas Titan P</div><div class="fi">LU2206556016</div><div class="am-b">Pictet AM</div></td>
+          <td><span class="badge b-alt">Perf. abs.</span></td>
+          <td style="color:var(--txt2);font-size:12px">Long/Short Europe</td>
+          <td><div class="wb"><span class="wn" style="color:#3A9FD4">5%</span><div class="bg"><div class="bf" style="width:10%;background:#3A9FD4"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+11.78%</td>
+          <td style="color:var(--txt2)">1.59</td>
+          
+          <td><span class="rtag">Décorrélant Sharpe 1,59</span></td>
+        </tr><tr class="tot"><td colspan="3"><strong>Total</strong></td><td><strong style="color:#3A9FD4;font-size:14px">100%</strong></td><td colspan="4"></td></tr></tbody></table></div>
+  <div class="kgrid"><div class="kc"><div class="kl">Fonds euros</div><div class="kv" style="color:#3A9FD4">10%</div></div><div class="kc"><div class="kl">Obligations</div><div class="kv" style="color:#3A9FD4">30%</div></div><div class="kc"><div class="kl">Flexibles</div><div class="kv" style="color:#3A9FD4">20%</div></div><div class="kc"><div class="kl">Actions</div><div class="kv" style="color:#3A9FD4">35%</div></div><div class="kc"><div class="kl">Perf. absolue</div><div class="kv" style="color:#3A9FD4">5%</div></div><div class="kc"><div class="kl">SRI moy.</div><div class="kv" style="color:var(--gold)">≈ 3,1</div></div></div>
+</div>
+<div id="classic-equilibre-ju" class="tc"><div class="jlist"><div class="ji" style="border-left-color:#3A9FD4"><div class="jn">G Croissance 2020<span class="jpct">10%</span></div><div class="jt">Réduit à 10% pour ce profil. Conservé comme ancre sécuritaire et réservoir de liquidité pour rééquilibrage. Rendement garanti à terme offre une base stable.</div></div><div class="ji" style="border-left-color:#3A9FD4"><div class="jn">Axiom Obligataire RC — Axiom Alt. Inv.<span class="jpct">15%</span></div><div class="jt">★5 / SRI 2 / Sharpe 1,40. Spécialiste dettes financières (hybrides, Tier 1, dette subordonnée). Perf 3a +7,82%, volatilité 3,39%. Pilier du pôle obligataire sur la partie rendement avec une approche opportuniste monde.</div></div><div class="ji" style="border-left-color:#3A9FD4"><div class="jn">Schelcher Euro High Yield P — Arkea AM<span class="jpct">15%</span></div><div class="jt">★5 / SRI 2 / Sharpe 1,53. Meilleur fonds HY euro de la sélection. Perf 3a +7,20%, volatilité 2,70%. Complémentaire d'Axiom sur les émetteurs corporate (vs. financier pour Axiom). Deux univers obligataires distincts.</div></div><div class="ji" style="border-left-color:#3A9FD4"><div class="jn">Carmignac Invest Latitude A — Carmignac<span class="jpct">15%</span></div><div class="jt">★5 / SRI 3 / Sharpe 1,26. Fonds flexible monde à gestion active, meilleur de sa catégorie. Perf 3a +13,78%, perf 1a +16,18%. Sert de pont entre le pôle défensif et le pôle actions, avec une gestion tactique de l'allocation.</div></div><div class="ji" style="border-left-color:#3A9FD4"><div class="jn">Omega Allocation Flexible — Lazard<span class="jpct">5%</span></div><div class="jt">★5 / SRI 3 / Sharpe 1,08. Flexible prudent Lazard Frères, perf 3a +8,83%. Complémentaire de Carmignac Latitude en style et maison de gestion.</div></div><div class="ji" style="border-left-color:#3A9FD4"><div class="jn">Amundi MSCI World II ETF<span class="jpct">15%</span></div><div class="jt">★5 / SRI 4. ETF monde à frais très réduits, Sharpe 0,97, perf 3a +15,81%. Socle actions diversifié sur 1 600 sociétés développées. Base passive à faible coût avant les satellites actifs.</div></div><div class="ji" style="border-left-color:#3A9FD4"><div class="jn">JPMF Euroland Dynamic A — JPMorgan<span class="jpct">10%</span></div><div class="jt">★5 / SRI 4 / Sharpe 1,05. Actions zone euro géré activement par JPMorgan, perf 3a +17,14%. Complémentaire du MSCI World sur l'Europe — sans risque de change.</div></div><div class="ji" style="border-left-color:#3A9FD4"><div class="jn">iShares MSCI EM ex-China ETF — BlackRock<span class="jpct">10%</span></div><div class="jt">★5 / SRI 4 / Sharpe 1,09. ETF émergents hors Chine (Inde, Corée, Taiwan, Brésil…), perf 3a +16,56%. Exclure la Chine réduit le risque géopolitique.</div></div><div class="ji" style="border-left-color:#3A9FD4"><div class="jn">Pictet TR Atlas Titan P — Pictet AM<span class="jpct">5%</span></div><div class="jt">★5 / SRI 3 / Sharpe 1,59. Meilleur Sharpe de toute la sélection. Long/Short Europe non directionnel, volatilité 5,47%. À 5%, améliore sensiblement le ratio Sharpe global.</div></div></div><div class="rnote">⚠ Risques : risque actions 35%, risque HY (Schelcher — 15%), risque émergents 10%. Drawdown max estimé -15% à -20% en stress. Pôle défensif (fonds euros + oblig. + flexible) = 60%.</div></div>
+<div id="classic-equilibre-sy" class="tc"><div class="sgrid"><div class="sc"><div class="sl">Objectif</div><div class="sv">Croissance modérée + régularité — équilibre rendement / préservation</div></div><div class="sc"><div class="sl">Horizon recommandé</div><div class="sv">5 à 8 ans minimum</div></div><div class="sc"><div class="sl">Niveau de risque</div><div class="sv">Modéré — SRI moyen pondéré ≈ 3,1</div></div><div class="sc"><div class="sl">Profil client adapté</div><div class="sv">Actif ou pré-retraite, recherche de croissance avec filet de sécurité</div></div><div class="sc"><div class="sl">Volatilité estimée</div><div class="sv">5% à 8% — modérée</div></div><div class="sc"><div class="sl">Rendement cible</div><div class="sv">7% à 10% / an brut de frais de gestion</div></div></div><div class="quote-box"><div class="qt">Phrase de présentation client</div><div class="qb">"Un portefeuille équilibré qui cherche à faire croître votre épargne sur le long terme tout en limitant les mauvaises surprises — avec le fonds euros Generali comme filet, des obligations de rendement sélectionnées parmi les meilleures du marché, et les gérants actions les mieux notés."</div></div></div>
+<div id="classic-equilibre-qa" class="tc"><ul class="qalist"><li class="qai ok"><span class="qi oki">✓</span>Total = 100% — 10+15+15+15+5+15+10+10+5</li><li class="qai ok"><span class="qi oki">✓</span>9 lignes — dans la cible pour profil équilibré</li><li class="qai ok"><span class="qi oki">✓</span>Toutes lignes ★5 Quantalys</li><li class="qai ok"><span class="qi oki">✓</span>Axiom (dettes financières) ≠ Schelcher (corporate HY) — deux univers distincts</li><li class="qai ok"><span class="qi oki">✓</span>Carmignac Latitude ≠ Omega Allocation — styles et maisons de gestion distincts</li><li class="qai ok"><span class="qi oki">✓</span>MSCI World ETF ≠ JPM Euroland actif ≠ EM ex-China — 3 zones géographiques</li><li class="qai ok"><span class="qi oki">✓</span>Pictet TR Atlas Titan : décorrélant Sharpe 1,59 — améliore le profil risque/rendement</li><li class="qai wa"><span class="qi wai">△</span>High yield Schelcher (15%) : à surveiller en cycle de crédit dégradé</li></ul></div>
+<div id="classic-equilibre-map" class="tc"><div class="map-wrap">
+  <div id="map-classic-equilibre" class="map-container" style="height:400px"></div>
+  <div class="map-legend" id="legend-classic-equilibre"></div>
+</div>
+<div class="country-grid" id="countries-classic-equilibre"></div></div>    </div>
+  </div>
+  <div id="ppanel-classic-dynamique" class="profile-panel">
+    <div class="panel-body">
+<div class="phdr dyn">
+  <div class="phdr-lbl" style="color:#E07030">Profil dynamique — Classique</div>
+  <div class="phdr-title">Profil dynamique</div>
+  <div class="phdr-sub">Croissance long terme · Meilleurs gérants actifs monde, US, Europe, tech · Flexibles offensifs</div>
+  <div class="phdr-badge">SRI ≈ 4,0 · 11 lignes</div>
+  <div class="kpis"><div><div class="kpi-v" style="color:#E07030">0%</div><div class="kpi-l">Fonds euros</div></div><div><div class="kpi-v" style="color:#E07030">10%</div><div class="kpi-l">Obligations</div></div><div><div class="kpi-v" style="color:#E07030">20%</div><div class="kpi-l">Flexibles offensifs</div></div><div><div class="kpi-v" style="color:#E07030">65%</div><div class="kpi-l">Actions</div></div><div><div class="kpi-v" style="color:#E07030">5%</div><div class="kpi-l">Perf. abs.</div></div><div><div class="kpi-v" style="color:#E07030">≈ 4,0</div><div class="kpi-l">SRI moyen</div></div><div><div class="kpi-v" style="color:#E07030">8–12 ans</div><div class="kpi-l">Horizon</div></div></div>
+</div>
+<div class="stabs"><button class="stab  on" onclick="showT('classic-dynamique','al')">Allocation</button><button class="stab" onclick="showT('classic-dynamique','ju')">Justification</button><button class="stab" onclick="showT('classic-dynamique','sy')">Synthèse client</button><button class="stab" onclick="showT('classic-dynamique','qa')">Contrôle qualité</button><button class="stab" onclick="showT('classic-dynamique','map')">Carte mondiale</button></div>
+<div id="classic-dynamique-al" class="tc on">
+  <div class="twrap"><table class="at">
+<thead><tr><th>Support</th><th>Type</th><th>Classe d'actifs</th><th>Poids</th><th>SRI</th><th>Perf 3a ann.</th><th>Sharpe 3a</th><th>Rôle</th></tr></thead>
+<tbody><tr class="star">
+          <td><div class="fn">Carmignac Investissement A</div><div class="fi">FR0010148981</div><div class="am-b">Carmignac Gestion</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions monde</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">15%</span><div class="bg"><div class="bf" style="width:30%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+18.98%</td>
+          <td style="color:var(--txt2)">1.13</td>
+          
+          <td><span class="rtag">Cœur actions monde ★5</span></td>
+        </tr><tr class="star">
+          <td><div class="fn">HMG Globetrotter D</div><div class="fi">FR0010241265</div><div class="am-b">HMG Finance</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions monde</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">10%</span><div class="bg"><div class="bf" style="width:20%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+16.09%</td>
+          <td style="color:var(--txt2)">1.54</td>
+          
+          <td><span class="rtag">Sharpe 1,54 monde ★5</span></td>
+        </tr><tr class="star">
+          <td><div class="fn">JPMF US Select Equity Plus A</div><div class="fi">LU0281483569</div><div class="am-b">JPMorgan AM</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions US</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">15%</span><div class="bg"><div class="bf" style="width:30%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+18.25%</td>
+          <td style="color:var(--txt2)">1.13</td>
+          
+          <td><span class="rtag">US large cap actif ★5</span></td>
+        </tr><tr class="star">
+          <td><div class="fn">Maxima A</div><div class="fi">FR0010148007</div><div class="am-b">Sanso Longchamp AM</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions Europe</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">10%</span><div class="bg"><div class="bf" style="width:20%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+19.75%</td>
+          <td style="color:var(--txt2)">1.40</td>
+          
+          <td><span class="rtag">Europe Sharpe 1,40 ★5</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Lazard Actions Émergentes R</div><div class="fi">FR0010380675</div><div class="am-b">Lazard Frères Gestion</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions émergents</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">10%</span><div class="bg"><div class="bf" style="width:20%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+18.65%</td>
+          <td style="color:var(--txt2)">1.24</td>
+          
+          <td><span class="rtag">Émergents actif ★5</span></td>
+        </tr><tr class="star">
+          <td><div class="fn">JHHF Global Technology Leaders A2</div><div class="fi">LU0572952280</div><div class="am-b">Janus Henderson</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions tech monde</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">10%</span><div class="bg"><div class="bf" style="width:20%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+26.82%</td>
+          <td style="color:var(--txt2)">1.21</td>
+          
+          <td><span class="rtag">Tech mondiale ★5</span></td>
+        </tr><tr class="">
+          <td><div class="fn">DNCA Explorer Smid Euro B</div><div class="fi">LU2882334381</div><div class="am-b">DNCA Finance</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions small/mid euro</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">5%</span><div class="bg"><div class="bf" style="width:10%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+13.38%</td>
+          <td style="color:var(--txt2)">0.69</td>
+          
+          <td><span class="rtag">Small caps euro alpha</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Carmignac Invest Latitude A</div><div class="fi">FR0010147603</div><div class="am-b">Carmignac Gestion</div></td>
+          <td><span class="badge b-flex">Flexible</span></td>
+          <td style="color:var(--txt2);font-size:12px">Flexible monde offensif</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">10%</span><div class="bg"><div class="bf" style="width:20%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+13.78%</td>
+          <td style="color:var(--txt2)">1.26</td>
+          
+          <td><span class="rtag">Flexible offensif Sharpe 1,26</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Claresco Allocation Flexible P</div><div class="fi">LU1379103903</div><div class="am-b">Claresco Finance</div></td>
+          <td><span class="badge b-flex">Flexible</span></td>
+          <td style="color:var(--txt2);font-size:12px">Flexible monde offensif</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">10%</span><div class="bg"><div class="bf" style="width:20%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+13.09%</td>
+          <td style="color:var(--txt2)">1.04</td>
+          
+          <td><span class="rtag">Flexible P5 perf 5a +9,91%</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Axiom Obligataire RC</div><div class="fi">LU1876460905</div><div class="am-b">Axiom Alternative Inv.</div></td>
+          <td><span class="badge b-obl">Oblig.</span></td>
+          <td style="color:var(--txt2);font-size:12px">Oblig. monde diversif.</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">10%</span><div class="bg"><div class="bf" style="width:20%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+7.82%</td>
+          <td style="color:var(--txt2)">1.40</td>
+          
+          <td><span class="rtag">Coussin obligataire</span></td>
+        </tr><tr class="">
+          <td><div class="fn">JPMF Europe Eq Abs Alpha A</div><div class="fi">LU1001747408</div><div class="am-b">JPMorgan AM</div></td>
+          <td><span class="badge b-alt">Perf. abs.</span></td>
+          <td style="color:var(--txt2);font-size:12px">Long/Short Europe</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">5%</span><div class="bg"><div class="bf" style="width:10%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+11.15%</td>
+          <td style="color:var(--txt2)">1.35</td>
+          
+          <td><span class="rtag">Décorrélant JPM ★5</span></td>
+        </tr><tr class="tot"><td colspan="3"><strong>Total</strong></td><td><strong style="color:#E07030;font-size:14px">100%</strong></td><td colspan="4"></td></tr></tbody></table></div>
+  <div class="kgrid"><div class="kc"><div class="kl">Actions</div><div class="kv" style="color:#E07030">65%</div></div><div class="kc"><div class="kl">Flexibles offensifs</div><div class="kv" style="color:#E07030">20%</div></div><div class="kc"><div class="kl">Obligataire</div><div class="kv" style="color:#E07030">10%</div></div><div class="kc"><div class="kl">Perf. absolue</div><div class="kv" style="color:#E07030">5%</div></div><div class="kc"><div class="kl">SRI moy.</div><div class="kv" style="color:var(--gold)">≈ 4,0</div></div><div class="kc"><div class="kl">Notation moy.</div><div class="kv" style="color:var(--gold)">★5</div></div></div>
+</div>
+<div id="classic-dynamique-ju" class="tc"><div class="jlist"><div class="ji" style="border-left-color:#E07030"><div class="jn">Carmignac Investissement A<span class="jpct">15%</span></div><div class="jt">★5 / SRI 4 / Sharpe 1,13. Fonds actions monde de conviction Carmignac, perf 3a +18,98%. Style growth, gestion active, conviction forte. Constitue le cœur du pôle actions monde.</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">HMG Globetrotter D — HMG Finance<span class="jpct">10%</span></div><div class="jt">★5 / SRI 3 / Sharpe 1,54. Meilleur Sharpe de la catégorie actions monde. Spécialiste SMID mondiales de qualité. Complémentaire de Carmignac sur le style (value/qualité vs. growth).</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">JPMF US Select Equity Plus A<span class="jpct">15%</span></div><div class="jt">★5 / SRI 4 / Sharpe 1,13. Meilleur fonds US actif de la sélection, JPMorgan. Perf 3a +18,25%, P5 +14,84%. Surpondération US justifiée par le poids économique mondial.</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">Maxima A — Sanso Longchamp AM<span class="jpct">10%</span></div><div class="jt">★5 / SRI 4 / Sharpe 1,40. Meilleur Sharpe de la catégorie actions Europe. Perf 3a +19,75%, P1 record +31,03%. Gestion active de conviction sur les marchés européens.</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">Lazard Actions Émergentes R<span class="jpct">10%</span></div><div class="jt">★5 / SRI 4 / Sharpe 1,24. Meilleur fonds émergents actif de la sélection, perf 3a +18,65%. Lazard Frères, expertise reconnue. Source de diversification et croissance long terme.</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">JHHF Global Technology Leaders A2<span class="jpct">10%</span></div><div class="jt">★5 / SRI 5 / Sharpe 1,21. Fonds tech mondiale Janus Henderson, perf 3a +26,82%. Satellite thématique limité à 10% pour capturer la prime technologique sans surconcentration.</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">DNCA Explorer Smid Euro B<span class="jpct">5%</span></div><div class="jt">★5 / SRI 4. Small et mid caps zone euro DNCA. Perf 1a +27,29%. Satellite à 5% pour capter la prime small caps européenne long terme.</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">Carmignac Invest Latitude A<span class="jpct">10%</span></div><div class="jt">★5 / SRI 3 / Sharpe 1,26. Flexible monde offensif, amortisseur tactique en cas de choc. Permet une gestion active de l'exposition sans vendre les lignes directes.</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">Claresco Allocation Flexible P<span class="jpct">10%</span></div><div class="jt">★5 / SRI 3 / Sharpe 1,04. Flexible monde, meilleure perf 5a de la catégorie (+9,91%). Complémentaire de Carmignac Latitude : style et maison différents.</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">Axiom Obligataire RC<span class="jpct">10%</span></div><div class="jt">★5 / SRI 2 / Sharpe 1,40. Seul coussin obligataire. Réservoir de liquidité en cas de forte correction. Volatilité 3,39%, rendement +7,82%.</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">JPMF Europe Eq Abs Alpha A<span class="jpct">5%</span></div><div class="jt">★5 / SRI 3 / Sharpe 1,35. Long/Short Europe non directionnel. À 5%, améliore le Sharpe global sans corrélation aux actifs directionnels. Track record 5a excellent.</div></div></div><div class="rnote">⚠ Risques : actions 65% (SRI ~4,0), concentration tech 10%, US ~30%. Drawdown max estimé -30% à -40%. Flexibles (20%) assurent l'amortissement. Horizon minimum 8 ans impératif.</div></div>
+<div id="classic-dynamique-sy" class="tc"><div class="sgrid"><div class="sc"><div class="sl">Objectif</div><div class="sv">Maximiser la croissance long terme avec les meilleurs gérants actifs mondiaux</div></div><div class="sc"><div class="sl">Horizon recommandé</div><div class="sv">8 à 12 ans minimum</div></div><div class="sc"><div class="sl">Niveau de risque</div><div class="sv">Élevé — SRI moyen pondéré ≈ 4,0</div></div><div class="sc"><div class="sl">Profil client adapté</div><div class="sv">Investisseur actif, long horizon, forte tolérance aux fluctuations</div></div><div class="sc"><div class="sl">Volatilité estimée</div><div class="sv">10% à 15% — élevée</div></div><div class="sc"><div class="sl">Rendement cible</div><div class="sv">12% à 18% / an brut — selon conditions de marché</div></div></div><div class="quote-box"><div class="qt">Phrase de présentation client</div><div class="qb">"Un portefeuille construit pour maximiser la croissance de votre capital sur le long terme, en sélectionnant les meilleurs gérants actifs mondiaux sur chaque zone géographique — avec deux flexibles de conviction comme pare-chocs et une poche obligataire Axiom pour saisir les opportunités."</div></div></div>
+<div id="classic-dynamique-qa" class="tc"><ul class="qalist"><li class="qai ok"><span class="qi oki">✓</span>Total = 100% — 15+10+15+10+10+10+5+10+10+10+5</li><li class="qai ok"><span class="qi oki">✓</span>11 lignes — justifié par la diversification d'un profil dynamique</li><li class="qai ok"><span class="qi oki">✓</span>Toutes lignes ★5 Quantalys sans exception</li><li class="qai ok"><span class="qi oki">✓</span>Carmignac Invest. (growth monde) ≠ HMG (value/qualité SMID) — styles distincts</li><li class="qai ok"><span class="qi oki">✓</span>4 zones géographiques : monde / US / Europe / émergents</li><li class="qai ok"><span class="qi oki">✓</span>Carmignac Latitude ≠ Claresco Flexible — deux gérants flexibles distincts</li><li class="qai ok"><span class="qi oki">✓</span>Axiom obligataire + JPMF Abs Alpha : deux décorrélants distincts</li><li class="qai wa"><span class="qi wai">△</span>11 lignes légèrement au-dessus de la cible — justifié par la diversification</li><li class="qai wa"><span class="qi wai">△</span>Tech JHHF (SRI 5) + émergents + US : concentration ~35% risques élevés à signaler</li></ul></div>
+<div id="classic-dynamique-map" class="tc"><div class="map-wrap">
+  <div id="map-classic-dynamique" class="map-container" style="height:400px"></div>
+  <div class="map-legend" id="legend-classic-dynamique"></div>
+</div>
+<div class="country-grid" id="countries-classic-dynamique"></div></div>    </div>
+  </div>
+</div>
+<div id="upanel-ethic" class="universe-panel">
+  <div id="ppanel-ethic-prudent" class="profile-panel on">
+    <div class="panel-body">
+<div class="phdr pru">
+  <div class="phdr-lbl" style="color:#2AB87A">Profil prudent — Éthique ESG/ISR</div>
+  <div class="phdr-title">Profil prudent</div>
+  <div class="phdr-sub">Flexibles défensifs + actions qualité ESG · Labels ISR certifiés · Sans obligations bancaires</div>
+  <div class="phdr-badge">SRI ≈ 3,4 · 7 lignes · 100% ESG</div>
+  <div class="kpis"><div><div class="kpi-v" style="color:#2AB87A">60%</div><div class="kpi-l">Flexibles ISR</div></div><div><div class="kpi-v" style="color:#2AB87A">40%</div><div class="kpi-l">Actions ESG</div></div><div><div class="kpi-v" style="color:#2AB87A">0%</div><div class="kpi-l">Obligations</div></div><div><div class="kpi-v" style="color:#2AB87A">0%</div><div class="kpi-l">Banques / Mat. prem.</div></div><div><div class="kpi-v" style="color:#2AB87A">≈ 3,4</div><div class="kpi-l">SRI moyen</div></div><div><div class="kpi-v" style="color:#2AB87A">5–7 ans</div><div class="kpi-l">Horizon</div></div></div>
+</div>
+<div class="stabs"><button class="stab  on" onclick="showT('ethic-prudent','al')">Allocation</button><button class="stab" onclick="showT('ethic-prudent','ju')">Justification</button><button class="stab" onclick="showT('ethic-prudent','sy')">Synthèse client</button><button class="stab" onclick="showT('ethic-prudent','qa')">Contrôle qualité</button><button class="stab" onclick="showT('ethic-prudent','map')">Carte mondiale</button></div>
+<div id="ethic-prudent-al" class="tc on">
+  <div class="twrap"><table class="at">
+<thead><tr><th>Support</th><th>Type</th><th>Classe d'actifs</th><th>Poids</th><th>SRI</th><th>Perf 3a ann.</th><th>Sharpe 3a</th><th>ESG / Label</th><th>Rôle</th></tr></thead>
+<tbody><tr class="star">
+          <td><div class="fn">Carmignac Invest Latitude A</div><div class="fi">FR0010147603</div><div class="am-b">Carmignac Gestion</div></td>
+          <td><span class="badge b-flex">Flexible</span></td>
+          <td style="color:var(--txt2);font-size:12px">Flexible monde</td>
+          <td><div class="wb"><span class="wn" style="color:#2AB87A">25%</span><div class="bg"><div class="bf" style="width:50%;background:#2AB87A"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+13.78%</td>
+          <td style="color:var(--txt2)">1.26</td>
+          <td><span class='badge b-alt'>ESG E/S/G ✓</span></td>
+          <td><span class="rtag">Cœur flexible ★5</span></td>
+        </tr><tr class="star">
+          <td><div class="fn">Pictet Multi Asset Gbl Opp P</div><div class="fi">LU0941349192</div><div class="am-b">Pictet AM</div></td>
+          <td><span class="badge b-flex">Flexible</span></td>
+          <td style="color:var(--txt2);font-size:12px">Flexible prudent monde</td>
+          <td><div class="wb"><span class="wn" style="color:#2AB87A">20%</span><div class="bg"><div class="bf" style="width:40%;background:#2AB87A"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+7.26%</td>
+          <td style="color:var(--txt2)">0.81</td>
+          <td><span class='badge b-alt'>ESG E/S/G ✓</span></td>
+          <td><span class="rtag">Flexible Pictet ★5</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Invesco Sustainable Allocation E</div><div class="fi">LU1701702703</div><div class="am-b">Invesco</div></td>
+          <td><span class="badge b-flex">Flexible</span></td>
+          <td style="color:var(--txt2);font-size:12px">Flexible monde</td>
+          <td><div class="wb"><span class="wn" style="color:#2AB87A">15%</span><div class="bg"><div class="bf" style="width:30%;background:#2AB87A"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+10.01%</td>
+          <td style="color:var(--txt2)">0.92</td>
+          <td><span class='badge b-ts'>Towards Sust.</span></td>
+          <td><span class="rtag">Flexible labellisé TS</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Sycomore Global Social Impact RC</div><div class="fi">LU2413894051</div><div class="am-b">Sycomore AM</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions monde value</td>
+          <td><div class="wb"><span class="wn" style="color:#2AB87A">15%</span><div class="bg"><div class="bf" style="width:30%;background:#2AB87A"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+14.48%</td>
+          <td style="color:var(--txt2)">0.79</td>
+          <td><span class='badge b-isr'>Label ISR</span></td>
+          <td><span class="rtag">Actions impact ISR</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Xtrackers MSCI World ESG ETF</div><div class="fi">IE00BZ02LR44</div><div class="am-b">DWS / Xtrackers</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions monde ESG</td>
+          <td><div class="wb"><span class="wn" style="color:#2AB87A">15%</span><div class="bg"><div class="bf" style="width:30%;background:#2AB87A"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+15.83%</td>
+          <td style="color:var(--txt2)">0.93</td>
+          <td><span class='badge b-ts'>Towards Sust.</span></td>
+          <td><span class="rtag">ETF monde ESG ★5</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Amundi Funds Global Eq Resp A</div><div class="fi">LU1883318740</div><div class="am-b">Amundi</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions environnement</td>
+          <td><div class="wb"><span class="wn" style="color:#2AB87A">5%</span><div class="bg"><div class="bf" style="width:10%;background:#2AB87A"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+11.47%</td>
+          <td style="color:var(--txt2)">0.73</td>
+          <td><span class='badge b-isr'>ISR+TS+FNG</span></td>
+          <td><span class="rtag">Transition triple label</span></td>
+        </tr><tr class="">
+          <td><div class="fn">FTGF CB Infrastructure Value A</div><div class="fi">IE00BD4GTQ32</div><div class="am-b">Franklin Templeton</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions infrastructures</td>
+          <td><div class="wb"><span class="wn" style="color:#2AB87A">5%</span><div class="bg"><div class="bf" style="width:10%;background:#2AB87A"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:#2AB87A"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+7.08%</td>
+          <td style="color:var(--txt2)">0.36</td>
+          <td><span class='badge b-alt'>ESG E/S/G ✓</span></td>
+          <td><span class="rtag">Infra défensif Franklin</span></td>
+        </tr><tr class="tot"><td colspan="3"><strong>Total</strong></td><td><strong style="color:#2AB87A;font-size:14px">100%</strong></td><td colspan="5"></td></tr></tbody></table></div>
+  <div class="kgrid"><div class="kc"><div class="kl">Flexibles actifs</div><div class="kv" style="color:#2AB87A">60%</div></div><div class="kc"><div class="kl">Actions ESG</div><div class="kv" style="color:#2AB87A">40%</div></div><div class="kc"><div class="kl">Obligations</div><div class="kv" style="color:#E07030">0%</div></div><div class="kc"><div class="kl">Labels ESG</div><div class="kv" style="color:#2AB87A">7/7</div></div><div class="kc"><div class="kl">SRI moy.</div><div class="kv" style="color:var(--gold)">≈ 3,4</div></div><div class="kc"><div class="kl">Notation moy.</div><div class="kv" style="color:var(--gold)">★4–5</div></div></div>
+</div>
+<div id="ethic-prudent-ju" class="tc"><div class="jlist"><div class="ji" style="border-left-color:#2AB87A"><div class="jn">Carmignac Invest Latitude A — Carmignac<span class="jpct">25%</span></div><div class="jt">★5 / SRI 3. Meilleur Sharpe/risque de la sélection (1,26). Fonds flexible monde de conviction Carmignac, gérant activement les allocations actions/liquidités. ESG intégré sur les 3 critères E, S et G. Pilier central de gestion du risque.</div></div><div class="ji" style="border-left-color:#2AB87A"><div class="jn">Pictet Multi Asset Global Opp P<span class="jpct">20%</span></div><div class="jt">★5 / SRI 3. Fonds phare Pictet en gestion flexible prudente : perf 3a +7,26%, Sharpe 0,81, volatilité 5,2%. Exposition actions plafonnée, ESG déclaré sur les 3 critères. Premier représentant Pictet du portefeuille.</div></div><div class="ji" style="border-left-color:#2AB87A"><div class="jn">Invesco Sustainable Allocation E<span class="jpct">15%</span></div><div class="jt">★5 / SRI 3 / Towards Sustainability. Flexible monde labellisé, Sharpe 0,92. Complémentaire de Carmignac sur la flexibilité, avec label ESG certifié Towards Sustainability.</div></div><div class="ji" style="border-left-color:#2AB87A"><div class="jn">Sycomore Global Social Impact RC<span class="jpct">15%</span></div><div class="jt">★5 / SRI 4 / Label ISR. Actions monde à impact social, perf 3a +14,48%. Gestion active Sycomore AM avec analyse propriétaire de l'impact. Actions défensives quality/value.</div></div><div class="ji" style="border-left-color:#2AB87A"><div class="jn">Xtrackers MSCI World ESG ETF<span class="jpct">15%</span></div><div class="jt">★5 / SRI 4 / Towards Sustainability. ETF monde filtré ESG, frais minimaux, perf 3a +15,83%. Exposition large à ~1 600 sociétés mondiales responsables à moindre coût.</div></div><div class="ji" style="border-left-color:#2AB87A"><div class="jn">Amundi Funds Global Eq Resp A<span class="jpct">5%</span></div><div class="jt">★5 / SRI 4 / ISR+TS+FNG. Actions thématiques environnement, triple labellisé. 5% seulement pour le caractère satellite, tout en apportant une vraie coloration ESG documentée.</div></div><div class="ji" style="border-left-color:#2AB87A"><div class="jn">FTGF CB Infrastructure Value A<span class="jpct">5%</span></div><div class="jt">★4 / SRI 4 / Franklin Templeton. Infrastructures mondiales défensives, ESG intégré 3/3. Diversifiant peu corrélé aux marchés actions purs. Représentant Franklin Templeton dans le portefeuille.</div></div></div><div class="rnote">⚠ Sans obligations, le coussin défensif est assuré par les flexibles (60%). La volatilité sera plus élevée qu'un prudent classique. Horizon minimum recommandé : 5 ans.</div></div>
+<div id="ethic-prudent-sy" class="tc"><div class="sgrid"><div class="sc"><div class="sl">Objectif</div><div class="sv">Croissance régulière avec gestion active du risque — sans obligation, 100% ESG</div></div><div class="sc"><div class="sl">Horizon recommandé</div><div class="sv">5 à 7 ans minimum</div></div><div class="sc"><div class="sl">Niveau de risque</div><div class="sv">Modéré (SRI ~3,4) — plus élevé qu'un prudent classique</div></div><div class="sc"><div class="sl">Profil client adapté</div><div class="sv">Épargnant prudent refusant les obligations, sensible aux valeurs ESG</div></div><div class="sc"><div class="sl">Labels ESG</div><div class="sv">Towards Sust. (x2) · Label ISR (x1) · Triple ISR+TS+FNG (x1)</div></div><div class="sc"><div class="sl">Exclusions</div><div class="sv">0% banques · 0% matières premières extractives · 0% obligations</div></div></div><div class="quote-box"><div class="qt">Phrase de présentation client</div><div class="qb">"Un portefeuille prudent nouvelle génération — sans une seule obligation — qui protège votre capital grâce à la sélection des meilleurs gérants flexibles mondiaux, tout en respectant pleinement vos convictions responsables."</div></div></div>
+<div id="ethic-prudent-qa" class="tc"><ul class="qalist"><li class="qai ok"><span class="qi oki">✓</span>Total = 100% — 25+20+15+15+15+5+5</li><li class="qai ok"><span class="qi oki">✓</span>7 lignes — cible 5–7 atteinte</li><li class="qai ok"><span class="qi oki">✓</span>100% ESG intégré — 3 critères E/S/G validés sur toutes les lignes</li><li class="qai ok"><span class="qi oki">✓</span>4 labels formels : Towards Sust. (x2), Label ISR, Triple ISR+TS+FNG</li><li class="qai ok"><span class="qi oki">✓</span>0% obligations · 0% banques · 0% matières premières extractives</li><li class="qai ok"><span class="qi oki">✓</span>Pictet (Multi Asset ★5) et Franklin Templeton (Infrastructure ★4) inclus</li><li class="qai wa"><span class="qi wai">△</span>Sans obligations : volatilité plus élevée qu'un prudent classique — à expliquer</li><li class="qai wa"><span class="qi wai">△</span>Franklin Templeton : ESG E/S/G complet mais pas de label ISR officiel</li></ul></div>
+<div id="ethic-prudent-map" class="tc"><div class="map-wrap">
+  <div id="map-ethic-prudent" class="map-container" style="height:400px"></div>
+  <div class="map-legend" id="legend-ethic-prudent"></div>
+</div>
+<div class="country-grid" id="countries-ethic-prudent"></div></div>    </div>
+  </div>
+  <div id="ppanel-ethic-equilibre" class="profile-panel">
+    <div class="panel-body">
+<div class="phdr equ">
+  <div class="phdr-lbl" style="color:#3A9FD4">Profil équilibré — Éthique ESG/ISR</div>
+  <div class="phdr-title">Profil équilibré</div>
+  <div class="phdr-sub">100% actions ESG labellisées · Pictet Digital ★5 + Franklin Templeton ★5</div>
+  <div class="phdr-badge">SRI ≈ 4,2 · 8 lignes · 100% ESG</div>
+  <div class="kpis"><div><div class="kpi-v" style="color:#3A9FD4">100%</div><div class="kpi-l">Actions ESG</div></div><div><div class="kpi-v" style="color:#3A9FD4">0%</div><div class="kpi-l">Obligations</div></div><div><div class="kpi-v" style="color:#3A9FD4">10%</div><div class="kpi-l">Pictet Digital ★5</div></div><div><div class="kpi-v" style="color:#3A9FD4">10%</div><div class="kpi-l">Franklin Templeton ★5</div></div><div><div class="kpi-v" style="color:#3A9FD4">≈ 4,2</div><div class="kpi-l">SRI moyen</div></div><div><div class="kpi-v" style="color:#3A9FD4">7–10 ans</div><div class="kpi-l">Horizon</div></div></div>
+</div>
+<div class="stabs"><button class="stab  on" onclick="showT('ethic-equilibre','al')">Allocation</button><button class="stab" onclick="showT('ethic-equilibre','ju')">Justification</button><button class="stab" onclick="showT('ethic-equilibre','sy')">Synthèse client</button><button class="stab" onclick="showT('ethic-equilibre','qa')">Contrôle qualité</button><button class="stab" onclick="showT('ethic-equilibre','map')">Carte mondiale</button></div>
+<div id="ethic-equilibre-al" class="tc on">
+  <div class="twrap"><table class="at">
+<thead><tr><th>Support</th><th>Type</th><th>Classe d'actifs</th><th>Poids</th><th>SRI</th><th>Perf 3a ann.</th><th>Sharpe 3a</th><th>ESG / Label</th><th>Rôle</th></tr></thead>
+<tbody><tr class="star">
+          <td><div class="fn">Pictet Digital HR EUR</div><div class="fi">LU0474967485</div><div class="am-b">Pictet AM</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions monde digital</td>
+          <td><div class="wb"><span class="wn" style="color:#3A9FD4">10%</span><div class="bg"><div class="bf" style="width:20%;background:#3A9FD4"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+20.74%</td>
+          <td style="color:var(--txt2)">0.89</td>
+          <td><span class='badge b-ts'>Towards Sust.</span></td>
+          <td><span class="rtag">Digital Pictet ★5</span></td>
+        </tr><tr class="star">
+          <td><div class="fn">Templeton Emerging Markets A</div><div class="fi">LU0128522744</div><div class="am-b">Franklin Templeton</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions émergents monde</td>
+          <td><div class="wb"><span class="wn" style="color:#3A9FD4">10%</span><div class="bg"><div class="bf" style="width:20%;background:#3A9FD4"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+16.28%</td>
+          <td style="color:var(--txt2)">0.88</td>
+          <td><span class='badge b-alt'>ESG E/S/G ✓</span></td>
+          <td><span class="rtag">Émergents FT ★5</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Xtrackers MSCI World ESG ETF</div><div class="fi">IE00BZ02LR44</div><div class="am-b">DWS / Xtrackers</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions monde large ESG</td>
+          <td><div class="wb"><span class="wn" style="color:#3A9FD4">20%</span><div class="bg"><div class="bf" style="width:40%;background:#3A9FD4"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+15.83%</td>
+          <td style="color:var(--txt2)">0.93</td>
+          <td><span class='badge b-ts'>Towards Sust.</span></td>
+          <td><span class="rtag">Socle monde ESG ★5</span></td>
+        </tr><tr class="star">
+          <td><div class="fn">Tocqueville Euro Equity Value SRI</div><div class="fi">FR0013230059</div><div class="am-b">LBP AM / Tocqueville</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions euro value</td>
+          <td><div class="wb"><span class="wn" style="color:#3A9FD4">15%</span><div class="bg"><div class="bf" style="width:30%;background:#3A9FD4"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+17.77%</td>
+          <td style="color:var(--txt2)">1.10</td>
+          <td><span class='badge b-isr'>Label ISR</span></td>
+          <td><span class="rtag">Euro value ISR Sharpe 1,10</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Xtrackers MSCI USA ESG ETF H EUR</div><div class="fi">IE0000MMQ5M5</div><div class="am-b">DWS / Xtrackers</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions US ESG hedgé</td>
+          <td><div class="wb"><span class="wn" style="color:#3A9FD4">15%</span><div class="bg"><div class="bf" style="width:30%;background:#3A9FD4"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+19.20%</td>
+          <td style="color:var(--txt2)">1.05</td>
+          <td><span class='badge b-ts'>Towards Sust.</span></td>
+          <td><span class="rtag">US ESG sans risque devise</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Invesco Sust. Pan Eur. Syst. Eq A</div><div class="fi">LU0119750205</div><div class="am-b">Invesco</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions Europe ESG</td>
+          <td><div class="wb"><span class="wn" style="color:#3A9FD4">10%</span><div class="bg"><div class="bf" style="width:20%;background:#3A9FD4"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+12.87%</td>
+          <td style="color:var(--txt2)">0.88</td>
+          <td><span class='badge b-ts'>Towards Sust.</span></td>
+          <td><span class="rtag">Europe systématique ESG</span></td>
+        </tr><tr class="star">
+          <td><div class="fn">Sycomore Sustainable Tech RC</div><div class="fi">LU2181906426</div><div class="am-b">Sycomore AM</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions tech monde ISR</td>
+          <td><div class="wb"><span class="wn" style="color:#3A9FD4">10%</span><div class="bg"><div class="bf" style="width:20%;background:#3A9FD4"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+27.51%</td>
+          <td style="color:var(--txt2)">1.06</td>
+          <td><span class='badge b-isr'>Label ISR</span></td>
+          <td><span class="rtag">Tech ISR Sharpe 1,06</span></td>
+        </tr><tr class="">
+          <td><div class="fn">LF Carbone Impact Global R</div><div class="fi">LU1744646933</div><div class="am-b">Crédit Mutuel AM</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions transition ESG</td>
+          <td><div class="wb"><span class="wn" style="color:#3A9FD4">10%</span><div class="bg"><div class="bf" style="width:20%;background:#3A9FD4"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:#3A9FD4"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+10.59%</td>
+          <td style="color:var(--txt2)">0.52</td>
+          <td><span class='badge b-gf'>ISR+Greenfin+FNG</span></td>
+          <td><span class="rtag">Transition triple label</span></td>
+        </tr><tr class="tot"><td colspan="3"><strong>Total</strong></td><td><strong style="color:#3A9FD4;font-size:14px">100%</strong></td><td colspan="5"></td></tr></tbody></table></div>
+  <div class="kgrid"><div class="kc"><div class="kl">Actions larges ESG</div><div class="kv" style="color:#3A9FD4">35%</div></div><div class="kc"><div class="kl">Zone euro ISR</div><div class="kv" style="color:#3A9FD4">15%</div></div><div class="kc"><div class="kl">Émergents + thém.</div><div class="kv" style="color:#3A9FD4">30%</div></div><div class="kc"><div class="kl">Transition / Impact</div><div class="kv" style="color:#3A9FD4">20%</div></div><div class="kc"><div class="kl">Pictet Digital</div><div class="kv" style="color:#2AB87A">✓ 10%</div></div><div class="kc"><div class="kl">Franklin Templeton</div><div class="kv" style="color:#2AB87A">✓ 10%</div></div></div>
+</div>
+<div id="ethic-equilibre-ju" class="tc"><div class="jlist"><div class="ji" style="border-left-color:#3A9FD4"><div class="jn">Pictet Digital HR EUR — Pictet AM<span class="jpct">10%</span></div><div class="jt">★5 / SRI 5 / Towards Sustainability. Meilleur fonds Pictet du contrat. Digital = économie numérique mondiale (cloud, cybersécurité, e-commerce, IA). Perf 3a +20,74%, Sharpe 0,89. Limité à 10% pour le SRI 5.</div></div><div class="ji" style="border-left-color:#3A9FD4"><div class="jn">Templeton Emerging Markets A<span class="jpct">10%</span></div><div class="jt">★5 / SRI 4 / Franklin Templeton. Meilleur fonds de la gamme Franklin. Perf 1a record +36,69%, P3a +16,28%, ESG intégré 3/3. Spécialiste émergents depuis 35 ans.</div></div><div class="ji" style="border-left-color:#3A9FD4"><div class="jn">Xtrackers MSCI World ESG ETF<span class="jpct">20%</span></div><div class="jt">★5 / SRI 4 / Towards Sustainability. Socle large : 1 600 sociétés mondiales filtrées ESG. Frais minimaux, Sharpe 0,93. Base de diversification géographique à coût réduit.</div></div><div class="ji" style="border-left-color:#3A9FD4"><div class="jn">Tocqueville Euro Equity Value SRI<span class="jpct">15%</span></div><div class="jt">★4 / SRI 4 / Label ISR. Meilleur Sharpe actions actives ESG de la sélection (1,10). Gestion value zone euro, 100% Label ISR. Perf 3a +17,77%. Style complémentaire du MSCI World.</div></div><div class="ji" style="border-left-color:#3A9FD4"><div class="jn">Xtrackers MSCI USA ESG ETF H EUR<span class="jpct">15%</span></div><div class="jt">★4 / SRI 4 / Towards Sustainability. Exposition US large cap filtrée ESG, couverte en EUR (pas de risque dollar). Perf 3a +19,2%, Sharpe 1,05.</div></div><div class="ji" style="border-left-color:#3A9FD4"><div class="jn">Invesco Sust. Pan Eur. Systematic Eq A<span class="jpct">10%</span></div><div class="jt">★4 / SRI 4 / Towards Sustainability. Actions Europe large cap, approche quantitative-ESG. Perf 3a +12,87%, Sharpe 0,88. Complète l'Europe sans doublon avec Tocqueville.</div></div><div class="ji" style="border-left-color:#3A9FD4"><div class="jn">Sycomore Sustainable Tech RC<span class="jpct">10%</span></div><div class="jt">★4 / SRI 5 / Label ISR. Seul fonds tech labellisé ISR dans la liste. Perf 3a +27,51%, Sharpe 1,06. Filtre ESG rigoureux sur les valeurs technologiques.</div></div><div class="ji" style="border-left-color:#3A9FD4"><div class="jn">LF Carbone Impact Global R<span class="jpct">10%</span></div><div class="jt">★5 / SRI 4 / ISR+Greenfin+FNG. Actions cleantech, efficacité énergétique, eau. Triple labellisé. Apporte la dimension impact climatique documentée.</div></div></div><div class="rnote">⚠ 100% actions sans obligations (SRI ~4,2). Exposition US ~30%, tech ~20%, émergents 10%. Drawdown max estimé -30% à -40%. Horizon minimum 7 ans.</div></div>
+<div id="ethic-equilibre-sy" class="tc"><div class="sgrid"><div class="sc"><div class="sl">Objectif</div><div class="sv">Croissance responsable, 100% actions ESG/ISR diversifiées mondialement</div></div><div class="sc"><div class="sl">Horizon recommandé</div><div class="sv">7 à 10 ans minimum</div></div><div class="sc"><div class="sl">Niveau de risque</div><div class="sv">Modéré à élevé (SRI ~4,2) — sans coussin obligataire</div></div><div class="sc"><div class="sl">Profil client adapté</div><div class="sv">Investisseur convaincu ESG, tolérance aux fluctuations</div></div><div class="sc"><div class="sl">Labels ESG</div><div class="sv">Towards Sust. (x3) · Label ISR (x2) · Triple ISR+Greenfin+FNG (x1)</div></div><div class="sc"><div class="sl">Exclusions</div><div class="sv">0% obligations · 0% banques · 0% matières premières extractives</div></div></div><div class="quote-box"><div class="qt">Phrase de présentation client</div><div class="qb">"Un portefeuille équilibré 100% actions responsables — alliant les meilleurs gérants de Franklin Templeton et Pictet aux champions ESG européens — pour faire croître votre épargne sans compromis sur vos valeurs."</div></div></div>
+<div id="ethic-equilibre-qa" class="tc"><ul class="qalist"><li class="qai ok"><span class="qi oki">✓</span>Total = 100% — 10+10+20+15+15+10+10+10</li><li class="qai ok"><span class="qi oki">✓</span>8 lignes — cible 6–8 atteinte</li><li class="qai ok"><span class="qi oki">✓</span>100% ESG E/S/G validés sur toutes les lignes</li><li class="qai ok"><span class="qi oki">✓</span>5 labels formels — 2 ISR, 3 Towards Sustainability, 1 triple ISR+Greenfin+FNG</li><li class="qai ok"><span class="qi oki">✓</span>Pictet Digital HR ★5 et Templeton Emerging Markets ★5 inclus</li><li class="qai ok"><span class="qi oki">✓</span>Tocqueville value ≠ MSCI World blend ≠ Sycomore Tech growth — 3 styles distincts</li><li class="qai wa"><span class="qi wai">△</span>100% actions sans obligations = risque plus élevé qu'un équilibré classique</li><li class="qai wa"><span class="qi wai">△</span>Templeton FT : ESG intégré sans label ISR officiel — à préciser au client</li></ul></div>
+<div id="ethic-equilibre-map" class="tc"><div class="map-wrap">
+  <div id="map-ethic-equilibre" class="map-container" style="height:400px"></div>
+  <div class="map-legend" id="legend-ethic-equilibre"></div>
+</div>
+<div class="country-grid" id="countries-ethic-equilibre"></div></div>    </div>
+  </div>
+  <div id="ppanel-ethic-dynamique" class="profile-panel">
+    <div class="panel-body">
+<div class="phdr dyn">
+  <div class="phdr-lbl" style="color:#E07030">Profil dynamique — Éthique ESG/ISR</div>
+  <div class="phdr-title">Profil dynamique</div>
+  <div class="phdr-sub">Meilleurs performers ESG · Pictet 25% + Franklin Templeton 25% · 100% labels ESG</div>
+  <div class="phdr-badge">SRI ≈ 4,3 · 9 lignes · 100% ESG</div>
+  <div class="kpis"><div><div class="kpi-v" style="color:#E07030">80%</div><div class="kpi-l">Actions ESG</div></div><div><div class="kpi-v" style="color:#E07030">10%</div><div class="kpi-l">Oblig. ISR</div></div><div><div class="kpi-v" style="color:#E07030">25%</div><div class="kpi-l">Pictet</div></div><div><div class="kpi-v" style="color:#E07030">25%</div><div class="kpi-l">Franklin Templeton</div></div><div><div class="kpi-v" style="color:#E07030">≈ 4,3</div><div class="kpi-l">SRI moyen</div></div><div><div class="kpi-v" style="color:#E07030">10–15 ans</div><div class="kpi-l">Horizon</div></div></div>
+</div>
+<div class="stabs"><button class="stab  on" onclick="showT('ethic-dynamique','al')">Allocation</button><button class="stab" onclick="showT('ethic-dynamique','ju')">Justification</button><button class="stab" onclick="showT('ethic-dynamique','sy')">Synthèse client</button><button class="stab" onclick="showT('ethic-dynamique','qa')">Contrôle qualité</button><button class="stab" onclick="showT('ethic-dynamique','map')">Carte mondiale</button></div>
+<div id="ethic-dynamique-al" class="tc on">
+  <div class="twrap"><table class="at">
+<thead><tr><th>Support</th><th>Type</th><th>Classe d'actifs</th><th>Poids</th><th>SRI</th><th>Perf 3a ann.</th><th>Sharpe 3a</th><th>ESG / Label</th><th>Rôle</th></tr></thead>
+<tbody><tr class="star">
+          <td><div class="fn">Pictet Digital HR EUR</div><div class="fi">LU0474967485</div><div class="am-b">Pictet AM</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions monde digital</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">15%</span><div class="bg"><div class="bf" style="width:30%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+20.74%</td>
+          <td style="color:var(--txt2)">0.89</td>
+          <td><span class='badge b-ts'>Towards Sust.</span></td>
+          <td><span class="rtag">Digital Pictet ★5</span></td>
+        </tr><tr class="star">
+          <td><div class="fn">Templeton Emerging Markets A</div><div class="fi">LU0128522744</div><div class="am-b">Franklin Templeton</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions émergents monde</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">10%</span><div class="bg"><div class="bf" style="width:20%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+16.28%</td>
+          <td style="color:var(--txt2)">0.88</td>
+          <td><span class='badge b-alt'>ESG E/S/G ✓</span></td>
+          <td><span class="rtag">Émergents FT ★5</span></td>
+        </tr><tr class="star">
+          <td><div class="fn">FTGF Putnam US Research A EUR</div><div class="fi">IE00B1BXJ072</div><div class="am-b">Franklin Templeton</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions US</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">15%</span><div class="bg"><div class="bf" style="width:30%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+15.86%</td>
+          <td style="color:var(--txt2)">0.96</td>
+          <td><span class='badge b-alt'>ESG E/S/G ✓</span></td>
+          <td><span class="rtag">US actif FT ★4</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Xtrackers MSCI World ESG ETF</div><div class="fi">IE00BZ02LR44</div><div class="am-b">DWS / Xtrackers</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions monde large ESG</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">15%</span><div class="bg"><div class="bf" style="width:30%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+15.83%</td>
+          <td style="color:var(--txt2)">0.93</td>
+          <td><span class='badge b-ts'>Towards Sust.</span></td>
+          <td><span class="rtag">Socle monde ESG ★5</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Tocqueville Euro Equity Value SRI</div><div class="fi">FR0013230059</div><div class="am-b">LBP AM / Tocqueville</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions euro value ISR</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">10%</span><div class="bg"><div class="bf" style="width:20%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+17.77%</td>
+          <td style="color:var(--txt2)">1.10</td>
+          <td><span class='badge b-isr'>Label ISR</span></td>
+          <td><span class="rtag">Alpha euro value ISR</span></td>
+        </tr><tr class="star">
+          <td><div class="fn">Sycomore Sustainable Tech RC</div><div class="fi">LU2181906426</div><div class="am-b">Sycomore AM</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions tech monde ISR</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">10%</span><div class="bg"><div class="bf" style="width:20%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+27.51%</td>
+          <td style="color:var(--txt2)">1.06</td>
+          <td><span class='badge b-isr'>Label ISR</span></td>
+          <td><span class="rtag">Tech ISR Sharpe 1,06</span></td>
+        </tr><tr class="">
+          <td><div class="fn">DNCA Explorer Smid Euro B</div><div class="fi">LU2882334381</div><div class="am-b">DNCA Finance</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions small/mid euro</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">10%</span><div class="bg"><div class="bf" style="width:20%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+13.38%</td>
+          <td style="color:var(--txt2)">0.69</td>
+          <td><span class='badge b-isr'>Label ISR</span></td>
+          <td><span class="rtag">Small caps euro ISR ★5</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Pictet Robotics P EUR</div><div class="fi">LU1279334210</div><div class="am-b">Pictet AM</div></td>
+          <td><span class="badge b-act">Actions</span></td>
+          <td style="color:var(--txt2);font-size:12px">Actions robotique</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">10%</span><div class="bg"><div class="bf" style="width:20%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+21.39%</td>
+          <td style="color:var(--txt2)">0.81</td>
+          <td><span class='badge b-ts'>Towards Sust.</span></td>
+          <td><span class="rtag">Robotique Pictet TS</span></td>
+        </tr><tr class="">
+          <td><div class="fn">Ostrum SRI Crossover L</div><div class="fi">FR0011350685</div><div class="am-b">Natixis IM</div></td>
+          <td><span class="badge b-obl">Oblig.</span></td>
+          <td style="color:var(--txt2);font-size:12px">Oblig. euro ISR</td>
+          <td><div class="wb"><span class="wn" style="color:#E07030">5%</span><div class="bg"><div class="bf" style="width:10%;background:#E07030"></div></div></div></td>
+          <td><div class="sdots"><div class="sd" style="background:#E07030"></div><div class="sd" style="background:#E07030"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div><div class="sd" style="background:rgba(255,255,255,0.1)"></div></div></td>
+          <td style="color:#2AB87A;font-weight:500">+5.37%</td>
+          <td style="color:var(--txt2)">1.20</td>
+          <td><span class='badge b-isr'>Label ISR</span></td>
+          <td><span class="rtag">Coussin ISR Sharpe 1,20</span></td>
+        </tr><tr class="tot"><td colspan="3"><strong>Total</strong></td><td><strong style="color:#E07030;font-size:14px">100%</strong></td><td colspan="5"></td></tr></tbody></table></div>
+  <div class="kgrid"><div class="kc"><div class="kl">Actions ESG</div><div class="kv" style="color:#E07030">80%</div></div><div class="kc"><div class="kl">Oblig. ISR</div><div class="kv" style="color:#E07030">10%</div></div><div class="kc"><div class="kl">Pictet total</div><div class="kv" style="color:#2AB87A">25%</div></div><div class="kc"><div class="kl">Franklin Templeton</div><div class="kv" style="color:#2AB87A">25%</div></div><div class="kc"><div class="kl">SRI moy.</div><div class="kv" style="color:var(--gold)">≈ 4,3</div></div><div class="kc"><div class="kl">Labels ESG</div><div class="kv" style="color:#2AB87A">9/9</div></div></div>
+</div>
+<div id="ethic-dynamique-ju" class="tc"><div class="jlist"><div class="ji" style="border-left-color:#E07030"><div class="jn">Pictet Digital HR EUR — Pictet AM<span class="jpct">15%</span></div><div class="jt">★5 / SRI 5 / Towards Sustainability. Position forte sur le meilleur fonds Pictet : économie digitale mondiale, Sharpe 0,89, perf 3a +20,7%. Surpondéré à 15% pour maximiser la thématique la plus performante.</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">Templeton Emerging Markets A<span class="jpct">10%</span></div><div class="jt">★5 / SRI 4 / Franklin Templeton. La star Franklin. Perf 1a record +36,69%, P3a +16,28%, ESG 3/3. Spécialiste émergents depuis 35 ans. Moteur de croissance géographique.</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">FTGF Putnam US Research A EUR<span class="jpct">15%</span></div><div class="jt">★4 / SRI 4 / Franklin Templeton. Gestion active actions US par Putnam (boutique spécialiste). Perf 3a +15,86%, Sharpe 0,96. Différenciant face aux ETF S&P500 passifs.</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">Xtrackers MSCI World ESG ETF<span class="jpct">15%</span></div><div class="jt">★5 / SRI 4 / Towards Sustainability. Socle diversifié mondial, frais minimaux, Sharpe 0,93. Complémentaire des fonds actifs US et émergents sur la partie monde développée.</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">Tocqueville Euro Equity Value SRI<span class="jpct">10%</span></div><div class="jt">★4 / SRI 4 / Label ISR. Meilleur Sharpe actions actives ESG (1,10). Style value euro, anti-corrélé au growth US/tech. Apporte de la résilience dans un portefeuille principalement growth.</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">Sycomore Sustainable Tech RC<span class="jpct">10%</span></div><div class="jt">★4 / SRI 5 / Label ISR. Tech ISR actif Sycomore, Sharpe 1,06, perf 3a +27,51%. Complémentaire de Pictet Digital sur les valeurs tech au sens plus large.</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">DNCA Explorer Smid Euro B<span class="jpct">10%</span></div><div class="jt">★5 / SRI 4 / Label ISR. Small & mid caps zone euro DNCA, perf 1a +27,29%. Prime small caps = source d'alpha long terme. Zone euro sans risque de change.</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">Pictet Robotics P EUR — Pictet AM<span class="jpct">10%</span></div><div class="jt">★3 / SRI 5 / Towards Sustainability. Deuxième ligne Pictet sur la robotique industrielle, perf 3a +21,4%. Complémentaire de Pictet Digital : digital économie vs. robotique industrie.</div></div><div class="ji" style="border-left-color:#E07030"><div class="jn">Ostrum SRI Crossover L<span class="jpct">5%</span></div><div class="jt">★5 / SRI 2 / Label ISR. Coussin obligataire ISR, Sharpe 1,20. Seule poche défensive du portefeuille. Amortisseur en cas de choc actions sévère.</div></div></div><div class="rnote">⚠ 100% actions dont 80%, SRI moyen ~4,3. Concentration tech ~25% (Pictet Digital + Sycomore + Pictet Robotics), US ~30%. Drawdown max estimé -35% à -50%. Horizon minimum 10 ans recommandé.</div></div>
+<div id="ethic-dynamique-sy" class="tc"><div class="sgrid"><div class="sc"><div class="sl">Objectif</div><div class="sv">Croissance maximale long terme, 100% convictions ESG</div></div><div class="sc"><div class="sl">Horizon recommandé</div><div class="sv">10 à 15 ans minimum</div></div><div class="sc"><div class="sl">Niveau de risque</div><div class="sv">Élevé (SRI ~4,3) — 100% actions</div></div><div class="sc"><div class="sl">Profil client adapté</div><div class="sv">Investisseur averti, convictions ESG fortes, très long horizon</div></div><div class="sc"><div class="sl">Labels ESG</div><div class="sv">3 Label ISR · 2 Towards Sust. · Exclusions bancaires et matières premières</div></div><div class="sc"><div class="sl">Pictet + Franklin</div><div class="sv">50% du portefeuille — Digital ★5 + Robotics + Templeton EM ★5 + Putnam US</div></div></div><div class="quote-box"><div class="qt">Phrase de présentation client</div><div class="qb">"Le meilleur de Franklin Templeton et Pictet, allié aux champions ESG européens — un portefeuille 100% actions responsables construit pour maximiser la croissance sur le long terme, sans compromis ni sur la performance ni sur l'éthique."</div></div></div>
+<div id="ethic-dynamique-qa" class="tc"><ul class="qalist"><li class="qai ok"><span class="qi oki">✓</span>Total = 100% — 15+10+15+15+10+10+10+10+5</li><li class="qai ok"><span class="qi oki">✓</span>9 lignes — cible 7–10 atteinte</li><li class="qai ok"><span class="qi oki">✓</span>100% ESG E/S/G validés sur toutes les lignes</li><li class="qai ok"><span class="qi oki">✓</span>Pictet = 25% (Digital ★5 + Robotics) · Franklin = 25% (Templeton EM + Putnam US)</li><li class="qai ok"><span class="qi oki">✓</span>3 Label ISR + 2 Towards Sustainability + ESG intégré sur toutes les lignes</li><li class="qai ok"><span class="qi oki">✓</span>Pictet Digital ≠ Pictet Robotics — économie numérique vs. industrie robotique</li><li class="qai ok"><span class="qi oki">✓</span>Putnam US actif ≠ MSCI World ESG passif — complémentaires sur les États-Unis</li><li class="qai wa"><span class="qi wai">△</span>Concentration tech ~25% — risque en cas de rotation sectorielle</li><li class="qai wa"><span class="qi wai">△</span>Franklin Templeton et Putnam : ESG intégré sans label ISR officiel</li></ul></div>
+<div id="ethic-dynamique-map" class="tc"><div class="map-wrap">
+  <div id="map-ethic-dynamique" class="map-container" style="height:400px"></div>
+  <div class="map-legend" id="legend-ethic-dynamique"></div>
+</div>
+<div class="country-grid" id="countries-ethic-dynamique"></div></div>    </div>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <div class="fl">Himalia</div>
+    <div class="fd">Document à usage professionnel — Conseiller en Gestion de Patrimoine. Les informations présentées sont issues des données Quantalys au 19–23 février 2026. Les performances passées ne préjugent pas des performances futures. Ce document ne constitue pas un conseil en investissement individualisé.</div>
+  </div>
+  <div class="fm"><div>Données Quantalys · Février 2026</div><div style="margin-top:4px">Himalia Patrimoine</div></div>
+</footer>
+
+<script>
+const ALL_MAP_DATA = {"classic-prudent": [{"name": "Europe (obligations)", "pct": 25, "color": "#2AB87A", "lat": 50, "lng": 10, "desc": "Hugau Obli 1-3 + Carmignac Portfolio Credit"}, {"name": "Monde \u00e9mergent (CT)", "pct": 10, "color": "#1A8A5A", "lat": 10, "lng": 70, "desc": "IVO EM Corp Debt Short Duration"}, {"name": "\u00c9tats-Unis", "pct": 8, "color": "#7AE0B2", "lat": 39, "lng": -98, "desc": "HMG Globetrotter (partiel)"}, {"name": "Europe actions", "pct": 7, "color": "#50C899", "lat": 47, "lng": 15, "desc": "HMG Globetrotter + Pictet TR-Atlas"}, {"name": "Asie-Pacifique", "pct": 5, "color": "#A0EED0", "lat": 30, "lng": 115, "desc": "HMG Globetrotter (diversification)"}, {"name": "Am\u00e9rique latine", "pct": 5, "color": "#C0F5E0", "lat": -15, "lng": -55, "desc": "IVO EM Corp Debt (partiel)"}, {"name": "Fonds euros (France)", "pct": 30, "color": "#0D5E35", "lat": 46, "lng": 2, "desc": "G Croissance 2020 \u2014 Generali Vie"}, {"name": "Autres pays", "pct": 10, "color": "#E0FFF3", "lat": 5, "lng": 30, "desc": "Diversification r\u00e9siduelle"}], "classic-equilibre": [{"name": "\u00c9tats-Unis", "pct": 35, "color": "#3A9FD4", "lat": 39, "lng": -98, "desc": "MSCI World II ETF + Carmignac Latitude + Axiom"}, {"name": "Zone Euro", "pct": 18, "color": "#1A6FA0", "lat": 48, "lng": 10, "desc": "JPMF Euroland Dynamic + MSCI World"}, {"name": "Pays \u00e9mergents", "pct": 12, "color": "#7AC8E8", "lat": 5, "lng": 70, "desc": "iShares MSCI EM ex-China ETF + Schelcher HY"}, {"name": "Japon", "pct": 7, "color": "#90D8F0", "lat": 36, "lng": 138, "desc": "MSCI World II ETF + Carmignac Latitude"}, {"name": "Royaume-Uni", "pct": 6, "color": "#A8E4F8", "lat": 54, "lng": -2, "desc": "MSCI World II ETF"}, {"name": "Asie (hors Japon)", "pct": 8, "color": "#B8EBF8", "lat": 25, "lng": 115, "desc": "EM ex-China ETF + MSCI World"}, {"name": "France (fonds euros)", "pct": 10, "color": "#042C53", "lat": 46, "lng": 2, "desc": "G Croissance 2020 \u2014 Generali Vie"}, {"name": "Autres", "pct": 4, "color": "#D0F0FF", "lat": -10, "lng": 30, "desc": "Diversification r\u00e9siduelle"}], "classic-dynamique": [{"name": "\u00c9tats-Unis", "pct": 38, "color": "#E07030", "lat": 39, "lng": -98, "desc": "JPMF US Select + Carmignac Invest. + Claresco + JHHF Tech"}, {"name": "Zone Euro", "pct": 15, "color": "#903818", "lat": 48, "lng": 10, "desc": "Maxima + DNCA Explorer Smid Euro"}, {"name": "Pays \u00e9mergents", "pct": 10, "color": "#F0A878", "lat": 5, "lng": 70, "desc": "Lazard Actions \u00c9mergentes"}, {"name": "Asie-Pacifique", "pct": 8, "color": "#F8C090", "lat": 30, "lng": 115, "desc": "Lazard \u00c9mergents + Carmignac Investissement"}, {"name": "Europe (hors Zone \u20ac)", "pct": 7, "color": "#F8C8A0", "lat": 52, "lng": 16, "desc": "Maxima + HMG Globetrotter"}, {"name": "Japon", "pct": 6, "color": "#F8D5B0", "lat": 36, "lng": 138, "desc": "Carmignac Investissement + HMG"}, {"name": "Inde", "pct": 5, "color": "#F8E0C0", "lat": 22, "lng": 80, "desc": "Lazard \u00c9mergents (exposition Inde)"}, {"name": "Autres", "pct": 11, "color": "#FDF0E0", "lat": -15, "lng": -55, "desc": "Br\u00e9sil, Cor\u00e9e, Taiwan, Reste monde"}], "ethic-prudent": [{"name": "\u00c9tats-Unis", "pct": 28, "color": "#2AB87A", "lat": 39, "lng": -98, "desc": "Carmignac Latitude + MSCI World ESG + Invesco"}, {"name": "Europe (hors France)", "pct": 22, "color": "#1A9E60", "lat": 50, "lng": 14, "desc": "MSCI World ESG + Invesco Sustainable + Sycomore"}, {"name": "Japon", "pct": 8, "color": "#7AE0B2", "lat": 36, "lng": 138, "desc": "Carmignac Latitude + MSCI World ESG"}, {"name": "Royaume-Uni", "pct": 6, "color": "#0D7A4A", "lat": 54, "lng": -2, "desc": "MSCI World ESG + Invesco Pan Europe"}, {"name": "Asie-Pacifique", "pct": 8, "color": "#50D09A", "lat": 25, "lng": 115, "desc": "Carmignac Latitude + Amundi Global Eq Resp"}, {"name": "France", "pct": 5, "color": "#B8F0D8", "lat": 46, "lng": 2, "desc": "MSCI World ESG + Sycomore Social Impact"}, {"name": "Pays \u00e9mergents", "pct": 8, "color": "#A0EED0", "lat": -5, "lng": 20, "desc": "Amundi Global Eq Resp + Carmignac Latitude"}, {"name": "Infrastr. monde", "pct": 5, "color": "#E0FFF3", "lat": 10, "lng": 0, "desc": "FTGF CB Infrastructure (Franklin Templeton)"}, {"name": "Autres", "pct": 10, "color": "#F0FFF8", "lat": -15, "lng": -55, "desc": "Diversification r\u00e9siduelle"}], "ethic-equilibre": [{"name": "\u00c9tats-Unis", "pct": 35, "color": "#3A9FD4", "lat": 39, "lng": -98, "desc": "Xtrackers USA ESG + MSCI World ESG + Pictet Digital + Sycomore Tech"}, {"name": "Zone Euro", "pct": 18, "color": "#1A6FA0", "lat": 48, "lng": 10, "desc": "Tocqueville Euro Value SRI + Invesco Pan Europe"}, {"name": "Pays \u00e9mergents", "pct": 12, "color": "#7AC8E8", "lat": 5, "lng": 70, "desc": "Templeton Emerging Markets (Franklin) + LF Carbone Impact"}, {"name": "Japon", "pct": 7, "color": "#90D8F0", "lat": 36, "lng": 138, "desc": "MSCI World ESG + Invesco"}, {"name": "Royaume-Uni", "pct": 6, "color": "#A8E4F8", "lat": 54, "lng": -2, "desc": "MSCI World ESG + Invesco Pan Europe"}, {"name": "Asie (hors Japon)", "pct": 8, "color": "#B8EBF8", "lat": 25, "lng": 115, "desc": "Templeton Emerging + MSCI World"}, {"name": "France", "pct": 4, "color": "#C8F0FF", "lat": 46, "lng": 2, "desc": "Tocqueville Euro Value + Invesco"}, {"name": "Autres", "pct": 10, "color": "#E8FAFF", "lat": -10, "lng": 30, "desc": "Diversification r\u00e9siduelle"}], "ethic-dynamique": [{"name": "\u00c9tats-Unis", "pct": 38, "color": "#E07030", "lat": 39, "lng": -98, "desc": "Putnam US + MSCI World ESG + Pictet Digital + Sycomore Tech"}, {"name": "Zone Euro", "pct": 15, "color": "#903818", "lat": 48, "lng": 10, "desc": "Tocqueville Euro Value SRI + DNCA Explorer Smid Euro"}, {"name": "Pays \u00e9mergents", "pct": 10, "color": "#F0A878", "lat": 5, "lng": 70, "desc": "Templeton Emerging Markets (Franklin)"}, {"name": "Asie-Pacifique", "pct": 8, "color": "#F8C090", "lat": 30, "lng": 115, "desc": "Templeton Emerging + Pictet Digital + MSCI World"}, {"name": "Japon", "pct": 6, "color": "#F8C8A0", "lat": 36, "lng": 138, "desc": "MSCI World ESG + Pictet Robotics"}, {"name": "Europe (hors Zone \u20ac)", "pct": 7, "color": "#F8D5B0", "lat": 52, "lng": 16, "desc": "MSCI World ESG + Pictet Digital"}, {"name": "Chine (partiel)", "pct": 4, "color": "#F8E0C0", "lat": 35, "lng": 105, "desc": "Templeton Emerging Markets"}, {"name": "Inde", "pct": 4, "color": "#FAE8D0", "lat": 22, "lng": 80, "desc": "Templeton Emerging Markets"}, {"name": "Autres", "pct": 8, "color": "#FDF3E8", "lat": -15, "lng": -55, "desc": "Br\u00e9sil, Cor\u00e9e, Taiwan via Templeton EM"}]};
+const leafletMaps = {};
+
+function showUniverse(u) {
+  ['classic','ethic'].forEach(v => {
+    document.getElementById('upanel-'+v)?.classList.toggle('on', v===u);
+    document.getElementById('pbar-'+v).style.display = v===u ? 'flex' : 'none';
+    const btn = document.getElementById('unav-'+v);
+    btn.classList.toggle('on', v===u);
+    btn.className = btn.className.replace(' on','') + (v===u?' on':'');
+  });
+}
+
+function showProfile(universe, pid) {
+  ['pru','equ','dyn'].forEach(p => {
+    document.getElementById('ppanel-'+universe+'-'+p)?.classList.toggle('on', p===pid);
+    const btn = document.getElementById('pbtn-'+universe+'-'+p);
+    if(btn) btn.classList.toggle('on', p===pid);
+  });
+}
+
+function showT(uid, tab) {
+  const tabs = ['al','ju','sy','qa','map'];
+  tabs.forEach(t => document.getElementById(uid+'-'+t)?.classList.remove('on'));
+  document.getElementById(uid+'-'+tab)?.classList.add('on');
+  const panel = document.querySelector(`[id^="ppanel-"]`);
+  const stabs = document.getElementById(uid+'-al')?.closest('.panel-body')?.querySelectorAll('.stabs button');
+  if(stabs) stabs.forEach((b,i) => b.classList.toggle('on', tabs[i]===tab));
+  if(tab === 'map') renderMap(uid);
+}
+
+function renderMap(uid) {
+  const container = document.getElementById('map-'+uid);
+  if(!container || leafletMaps[uid]) return;
+  const data = ALL_MAP_DATA[uid];
+  if(!data) return;
+  container.style.height = '400px';
+  const map = L.map(container, {center:[20,10],zoom:2,minZoom:2,maxZoom:5,zoomControl:true,scrollWheelZoom:false,attributionControl:false});
+  leafletMaps[uid] = map;
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:20}).addTo(map);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:20,opacity:.45}).addTo(map);
+  data.forEach(d => {
+    const r = 16 + (d.pct/40)*52;
+    const circle = L.circleMarker([d.lat,d.lng],{radius:r,fillColor:d.color,fillOpacity:.7,color:'rgba(255,255,255,.4)',weight:1.5}).addTo(map);
+    circle.bindTooltip(`<div style="padding:6px 10px;min-width:170px"><div style="font-weight:600;font-size:13px;margin-bottom:2px">${d.name}</div><div style="font-size:22px;font-weight:700;color:${d.color}">${d.pct}%</div><div style="font-size:11px;opacity:.7;margin-top:3px;line-height:1.4">${d.desc}</div></div>`,{direction:'top',offset:[0,-r/2]});
+    const icon = L.divIcon({html:`<div style="width:${r*2}px;height:${r*2}px;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none"><div style="font-size:${r>28?13:10}px;font-weight:700;color:white;text-shadow:0 1px 3px rgba(0,0,0,.9)">${d.pct}%</div>${r>24?`<div style="font-size:9px;color:rgba(255,255,255,.8);text-shadow:0 1px 2px rgba(0,0,0,.9);text-align:center;max-width:${r*1.6}px">${d.name.length>12?d.name.substring(0,11)+"…":d.name}</div>`:""}`,iconSize:[r*2,r*2],iconAnchor:[r,r],className:''});
+    L.marker([d.lat,d.lng],{icon,interactive:false}).addTo(map);
+  });
+  const leg = document.getElementById('legend-'+uid);
+  if(leg) leg.innerHTML = data.slice(0,6).map(d=>`<div class="mli"><div class="mld" style="background:${d.color}"></div><span>${d.name} — <strong>${d.pct}%</strong></span></div>`).join('');
+  const cg = document.getElementById('countries-'+uid);
+  if(cg) cg.innerHTML = data.map(d=>`<div class="cc"><div class="ccd" style="background:${d.color};box-shadow:0 0 6px ${d.color}40"></div><div class="cci"><div class="cn">${d.name}</div><div class="cp">${d.pct}% — ${d.desc.substring(0,55)}${d.desc.length>55?"…":""}</div><div class="ccb"><div class="ccbf" style="width:${Math.min(d.pct*2.5,100)}%;background:${d.color}"></div></div></div></div>`).join('');
+  setTimeout(()=>map.invalidateSize(),150);
+}
+
+document.querySelectorAll('.stab').forEach((btn,_) => {
+  btn.addEventListener('click', function() {
+    const uid = this.closest('.panel-body')?.querySelector('[id$="-al"],[id$="-ju"],[id$="-sy"],[id$="-qa"],[id$="-map"]')?.id?.replace(/-al$|-ju$|-sy$|-qa$|-map$/,'');
+    if(!uid) return;
+    const tabs = ['al','ju','sy','qa','map'];
+    const stabs = this.closest('.stabs')?.querySelectorAll('button');
+    if(stabs) {
+      const idx = Array.from(stabs).indexOf(this);
+      if(idx>=0) showT(uid, tabs[idx]);
+    }
+  });
+});
+</script>
+</body>
+</html>
